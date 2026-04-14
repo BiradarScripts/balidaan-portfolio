@@ -224,6 +224,14 @@ button {
   overflow: hidden;
 }
 
+.deck-viewport--swipeable {
+  cursor: grab;
+}
+
+.deck-viewport--swipeable:active {
+  cursor: grabbing;
+}
+
 .deck-rail {
   display: flex;
   gap: var(--deck-gap);
@@ -791,6 +799,67 @@ button {
 .showcase-card {
   gap: 1rem;
   padding: 0.95rem;
+  position: relative;
+  cursor: pointer;
+}
+
+.showcase-card.has-preview {
+  border-color: rgba(140, 255, 149, 0.25);
+  background:
+    linear-gradient(180deg, rgba(36, 36, 40, 0.98), rgba(25, 25, 30, 0.96)),
+    radial-gradient(circle at 50% 0%, rgba(140, 255, 149, 0.08), transparent 40%);
+  cursor: pointer;
+}
+
+.showcase-card__live-preview {
+  position: relative;
+  min-height: 17rem;
+  border-radius: 1.45rem;
+  border: 1px solid rgba(140, 255, 149, 0.2);
+  background-color: rgba(20, 20, 24, 0.95);
+  background-size: cover;
+  background-position: center top;
+  overflow: hidden;
+}
+
+.showcase-card__live-preview::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 20, 24, 0.4) 0%, rgba(20, 20, 24, 0.85) 100%);
+}
+
+.showcase-card__live-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(140, 255, 149, 0.9);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #050505;
+  box-shadow: 0 0 12px rgba(140, 255, 149, 0.6);
+  animation: live-pulse 2s ease-in-out infinite;
+  z-index: 2;
+}
+
+.showcase-card__live-label {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: rgba(140, 255, 149, 0.7);
+  z-index: 2;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
 }
 
 .showcase-card__content {

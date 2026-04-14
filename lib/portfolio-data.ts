@@ -21,6 +21,7 @@ export type PortfolioCard = {
   detailIntro: string;
   bullets: string[];
   links: LinkAction[];
+  previewUrl?: string;
   year?: string;
   metric?: string;
   palette?: Palette;
@@ -459,6 +460,7 @@ export const projectCards: PortfolioCard[] = [
     palette: "emerald",
     surface: "mesh",
     previewLabels: ["Notes", "Parse", "Summaries", "Voice"],
+    previewUrl: "https://brailey.vercel.app",
     detailIntro:
       "This project matters because it is both technically interesting and meaningfully human-centered.",
     bullets: [
@@ -466,7 +468,10 @@ export const projectCards: PortfolioCard[] = [
       "Integrated Gemini with FastAPI for real-time summarization and natural-language support.",
       "Collaborated with the University of Zurich on a patented accessibility-focused solution.",
     ],
-    links: [{ label: "GitHub Profile", href: identity.github }],
+    links: [
+      { label: "Live Demo", href: "https://brailey.vercel.app" },
+      { label: "GitHub Profile", href: identity.github },
+    ],
   },
   {
     id: "vaani-x",
