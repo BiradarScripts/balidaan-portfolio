@@ -205,6 +205,8 @@ function AboutColumn({
             sizes="(max-width: 900px) 100vw, 30vw"
           />
           <div className="portrait-card__screen" aria-hidden="true" />
+          <span className="bit-stream bit-stream--1">01001101</span>
+          <span className="bit-stream bit-stream--2">10110010</span>
         </div>
 
         <div className="portrait-card__copy">
