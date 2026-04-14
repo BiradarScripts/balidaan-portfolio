@@ -1,3 +1,5 @@
+import repoCatalog from "./repo-catalog.json";
+
 export type ColumnId = "about" | "experience" | "projects" | "achievements";
 export type Palette = "emerald" | "cyan" | "violet" | "amber" | "magenta";
 export type SurfaceStyle = "matrix" | "rings" | "beam" | "stack" | "pulse" | "mesh";
@@ -26,8 +28,220 @@ export type PortfolioCard = {
   previewLabels?: string[];
 };
 
+type RepoCatalogEntry = {
+  name: string;
+  fork: boolean;
+  description: string;
+  language: string;
+  updated: string;
+  summary: string;
+  longSummary: string;
+  readme: boolean;
+  url: string;
+  homepage: string;
+  topics: string[];
+};
+
+const repoCatalogEntries = repoCatalog as RepoCatalogEntry[];
+const paletteCycle: Palette[] = ["cyan", "emerald", "violet", "amber", "magenta"];
+const surfaceCycle: SurfaceStyle[] = ["rings", "mesh", "stack", "beam", "pulse", "matrix"];
+
+const featuredRepoNames = new Set([
+  "Quant-Gambit",
+  "Brailey",
+  "Vaani-X",
+  "VR-FINAL_PROJECT-2025",
+  "Meta-s-LedgerShield",
+  "Redactor",
+  "VisionYard-Pro",
+  "Intelligent-Clinical-Data-Mesh-ICDM-",
+  "NanoCredit.AI",
+  "Seva.ai",
+  "Prompt-flow",
+  "Econexus",
+  "Apna-Doctor",
+  "Bayesian-Coin-Toss-Experiment",
+  "Summarize.ai",
+  "Smart-Vision-Technology-Quality-Control-",
+]);
+
+const hiddenRepoNames = new Set([
+  "BiradarScripts",
+  "Dataset-Grid",
+  "EconeXus-frontends",
+  "EconeXus-backend",
+  "website",
+  "Gifs",
+  "wagtail",
+]);
+
+const repoTitleOverrides: Record<string, string> = {
+  "5G-NR-Mini-Projects": "5G NR Mini Projects",
+  "AMAZON-ML-CHALLENGE-2025": "Amazon ML Challenge 2025",
+  "AxRMs-": "AxRMs",
+  "Chat-Simulator": "Chat Simulator",
+  Djaan: "Djaan Search",
+  "Final-Portfolio": "Earlier Portfolio",
+  "LLD-low-level-Design-": "Low-Level Design Notes",
+  "LSTM_word_predictor": "LSTM Word Predictor",
+  "Mernify-language": "PixelLingo",
+  "os_mini_project": "Online Library Management System",
+  "PGTVS-LLM": "PGTVS LLM",
+  "project_signals": "Project Signals",
+  "Project1_java": "Filesystem Project",
+  "VR_Assignment1_ShreyasBiradar_IMT2022529.": "Visual Recognition Assignment",
+  "VR_Project1-pre-mid-sem": "Face Mask Detection",
+  "VR_VISUALISATION": "VR Visualisation",
+};
+
+const repoLookup = new Map(repoCatalogEntries.map((repo) => [repo.name, repo]));
+
+function unique<T>(values: T[]) {
+  return [...new Set(values)];
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function normalizeSpacing(value: string) {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function cleanRepoText(text: string, repoName?: string, maxLength = 260) {
+  let cleaned = text
+    .replace(/[*_`#>]+/g, " ")
+    .replace(/\[[^\]]+\]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (repoName) {
+    const rawNamePattern = new RegExp(`^${escapeRegExp(repoName)}\\s+`, "i");
+    const prettyNamePattern = new RegExp(
+      `^${escapeRegExp(repoName.replace(/[-_.]+/g, " "))}\\s+`,
+      "i",
+    );
+
+    cleaned = cleaned.replace(rawNamePattern, "").replace(prettyNamePattern, "");
+  }
+
+  cleaned = normalizeSpacing(cleaned);
+
+  if (cleaned.length <= maxLength) {
+    return cleaned;
+  }
+
+  const clipped = cleaned.slice(0, maxLength);
+  const breakpoint = Math.max(
+    clipped.lastIndexOf(". "),
+    clipped.lastIndexOf(", "),
+    clipped.lastIndexOf(" "),
+  );
+
+  return `${clipped.slice(0, breakpoint > 120 ? breakpoint : maxLength).trim()}...`;
+}
+
+function takeSentences(text: string, count: number, maxLength = 420) {
+  const cleaned = cleanRepoText(text, undefined, maxLength * 2);
+  const sentences = cleaned.split(/(?<=[.!?])\s+/).filter(Boolean);
+
+  if (sentences.length === 0) {
+    return [cleaned];
+  }
+
+  return sentences.slice(0, count);
+}
+
+function formatUpdatedMonth(value: string) {
+  const date = new Date(`${value}T00:00:00Z`);
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(date);
+}
+
+function titleFromRepoName(name: string) {
+  return repoTitleOverrides[name] ?? name.replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function accentFromTitle(title: string) {
+  const letters = title
+    .split(/[^A-Za-z0-9]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((chunk) => chunk[0]?.toUpperCase() ?? "");
+
+  return letters.join("").slice(0, 2) || "RP";
+}
+
+function repoSummary(name: string, fallback: string) {
+  return cleanRepoText(repoLookup.get(name)?.summary ?? fallback, name, 220);
+}
+
+function repoLongSummary(name: string, fallback: string) {
+  return cleanRepoText(repoLookup.get(name)?.longSummary ?? fallback, name, 420);
+}
+
+function deriveRepoTags(repo: RepoCatalogEntry) {
+  const source = `${repo.summary} ${repo.description}`.toLowerCase();
+  const tags = [repo.language];
+
+  if (source.includes("vision") || source.includes("image")) {
+    tags.push("Vision");
+  }
+  if (source.includes("llm") || source.includes("language model")) {
+    tags.push("LLM");
+  }
+  if (source.includes("rag") || source.includes("search")) {
+    tags.push("Search");
+  }
+  if (source.includes("clinical") || source.includes("doctor") || source.includes("health")) {
+    tags.push("Health");
+  }
+  if (source.includes("credit") || source.includes("market") || source.includes("pricing")) {
+    tags.push("Finance");
+  }
+  if (source.includes("chat") || source.includes("social")) {
+    tags.push("Interaction");
+  }
+  if (source.includes("system calls") || source.includes("process")) {
+    tags.push("Systems");
+  }
+  if (repo.fork) {
+    tags.push("Experiment");
+  } else {
+    tags.push("Original");
+  }
+
+  return unique(tags).slice(0, 3);
+}
+
+function deriveRepoBullets(repo: RepoCatalogEntry) {
+  const summary = cleanRepoText(repo.longSummary || repo.summary, repo.name, 520);
+  const bullets = takeSentences(summary, 3, 520);
+
+  if (repo.description) {
+    bullets.push(cleanRepoText(repo.description, undefined, 140));
+  }
+
+  bullets.push(
+    repo.fork
+      ? `Kept as a forked experiment or challenge build, last updated ${formatUpdatedMonth(repo.updated)}.`
+      : `Original public repository, last updated ${formatUpdatedMonth(repo.updated)}.`,
+  );
+
+  return unique(
+    bullets
+      .map((bullet) => bullet.trim())
+      .filter((bullet) => bullet.length > 24),
+  ).slice(0, 4);
+}
+
 export const identity = {
   name: "Shreyas Biradar",
+  alias: "Balidaan",
   role: "AI Engineer / Multimodal Builder",
   location: "IIIT Bangalore · Bengaluru, India",
   email: "pei2004shreyas@gmail.com",
@@ -305,18 +519,24 @@ export const projectCards: PortfolioCard[] = [
     title: "Meta's LedgerShield",
     meta: "Python · Updated Apr 2026",
     summary:
-      "A multimodal accounts-payable audit environment and one of the strongest recent signals in the current GitHub portfolio.",
+      repoSummary(
+        "Meta-s-LedgerShield",
+        "A multimodal accounts-payable audit environment for enterprise workflow intelligence.",
+      ),
     tags: ["Document AI", "Audit", "Recent"],
     accent: "LS",
     palette: "cyan",
     surface: "rings",
     previewLabels: ["Audit", "OCR", "Docs", "AI"],
     detailIntro:
-      "This repo points toward a serious applied-AI direction: document understanding, workflow automation, and trust-sensitive business systems.",
+      repoLongSummary(
+        "Meta-s-LedgerShield",
+        "A stateful multimodal benchmark for AI agents operating inside trust-sensitive accounts-payable workflows.",
+      ),
     bullets: [
-      "Public GitHub repository described as a multimodal accounts payable audit environment.",
-      "Represents a newer layer of the portfolio beyond the resume snapshot.",
-      "A strong fit for the highlighted-work column because it feels current and product-facing.",
+      "Frames accounts-payable review as a stateful benchmark instead of a single-step classification problem.",
+      "Pushes agents through evidence gathering, control selection, pressure handling, and proof-carrying decision flows.",
+      "Signals a sharper move toward enterprise document intelligence and workflow reliability.",
     ],
     links: [{ label: "Open Repository", href: "https://github.com/BiradarScripts/Meta-s-LedgerShield" }],
   },
@@ -327,18 +547,24 @@ export const projectCards: PortfolioCard[] = [
     title: "Redactor",
     meta: "HTML · Updated Apr 2026",
     summary:
-      "A legal-document privacy build focused on masking personal information inside sensitive paperwork.",
+      repoSummary(
+        "Redactor",
+        "A context-aware privacy workflow for masking sensitive information inside legal documents.",
+      ),
     tags: ["Privacy", "Legal Tech", "Recent"],
     accent: "RD",
     palette: "magenta",
     surface: "beam",
     previewLabels: ["Privacy", "Mask", "Docs", "Legal"],
     detailIntro:
-      "This is a clean example of applied software aimed at a sensitive domain where clarity and trust matter.",
+      repoLongSummary(
+        "Redactor",
+        "A legal-tech workflow that uses contextual masking instead of blunt redaction everywhere.",
+      ),
     bullets: [
-      "Public GitHub repository described as masking personal information in legal documents.",
-      "Extends the portfolio into privacy-preserving and legal-tech-oriented workflows.",
-      "Useful as a portfolio piece because it shows a problem with obvious real-world value.",
+      "Interfaces with the Indian Kanoon API to fetch source documents and mask the right people, not every named entity.",
+      "Protects victims and their families while preserving judges, lawyers, and the accused for legal context.",
+      "Pairs the NLP workflow with a web interface for side-by-side review.",
     ],
     links: [{ label: "Open Repository", href: "https://github.com/BiradarScripts/Redactor" }],
   },
@@ -349,18 +575,24 @@ export const projectCards: PortfolioCard[] = [
     title: "VisionYard Pro",
     meta: "TypeScript · Updated Apr 2026",
     summary:
-      "A recent TypeScript-based vision product experiment from the current GitHub account, positioned as a polished product-style build.",
+      repoSummary(
+        "VisionYard-Pro",
+        "A logistics and customs platform designed to reduce trade friction before cargo reaches the gate.",
+      ),
     tags: ["TypeScript", "Vision", "Recent"],
     accent: "VY",
     palette: "violet",
     surface: "stack",
     previewLabels: ["Vision", "UI", "TS", "Product"],
     detailIntro:
-      "This entry is based on the public GitHub repository metadata and belongs here because it reinforces the newer product-facing direction of the account.",
+      repoLongSummary(
+        "VisionYard-Pro",
+        "A multi-surface logistics, customs, and port-operations platform with both operational dashboards and AI parsing flows.",
+      ),
     bullets: [
-      "Recent GitHub project implemented in TypeScript.",
-      "Included as a non-redundant current project from the public repository list.",
-      "A good candidate for future screenshots once richer repo media or README content is added.",
+      "Combines a FastAPI backend for document ingestion, AI parsing, customs compliance checks, and risk scoring.",
+      "Pairs that backend with a Next.js interface covering broker intake, dashboards, customs review, and operations workspaces.",
+      "Feels like a true product system rather than a single isolated model demo.",
     ],
     links: [{ label: "Open Repository", href: "https://github.com/BiradarScripts/VisionYard-Pro" }],
   },
@@ -371,18 +603,24 @@ export const projectCards: PortfolioCard[] = [
     title: "Intelligent Clinical Data Mesh",
     meta: "Python · Updated Jan 2026",
     summary:
-      "A healthcare-flavored Python build from the current GitHub portfolio, grouped here as a distinct data-and-intelligence project.",
+      repoSummary(
+        "Intelligent-Clinical-Data-Mesh-ICDM-",
+        "A clinical-trial intelligence architecture built to unify fragmented data sources in real time.",
+      ),
     tags: ["Healthcare", "Python", "Data"],
     accent: "IC",
     palette: "emerald",
     surface: "mesh",
     previewLabels: ["Clinical", "Data", "Mesh", "Python"],
     detailIntro:
-      "This is another current-account project that broadens the portfolio beyond one domain and hints at healthcare-data applications.",
+      repoLongSummary(
+        "Intelligent-Clinical-Data-Mesh-ICDM-",
+        "An insight-driven architecture for real-time clinical trial intelligence and harmonized operational data.",
+      ),
     bullets: [
-      "Recent Python repository in the public GitHub account.",
-      "Kept as part of the portfolio because it is clearly distinct from the finance, accessibility, and document-workflow projects.",
-      "Well suited for future enrichment once deeper repo documentation is surfaced.",
+      "Unifies fragmented EDC, safety, lab, and CTMS data into a more coherent lakehouse-style architecture.",
+      "Targets operational blind spots in clinical trials by moving from document-heavy reporting toward live intelligence.",
+      "Adds a serious healthcare-data systems angle to the GitHub portfolio.",
     ],
     links: [{ label: "Open Repository", href: "https://github.com/BiradarScripts/Intelligent-Clinical-Data-Mesh-ICDM-" }],
   },
@@ -393,18 +631,24 @@ export const projectCards: PortfolioCard[] = [
     title: "NanoCredit.AI",
     meta: "Jupyter Notebook · Updated Nov 2025",
     summary:
-      "A finance-oriented AI repository from the GitHub account that adds another applied problem space to the portfolio.",
+      repoSummary(
+        "NanoCredit.AI",
+        "An ML project focused on assessing nano-enterprise creditworthiness for more inclusive lending decisions.",
+      ),
     tags: ["Fintech", "AI", "Credit"],
     accent: "NC",
     palette: "amber",
     surface: "pulse",
     previewLabels: ["Credit", "Risk", "ML", "Finance"],
     detailIntro:
-      "Even without a long public description, the repo is worth keeping because it gives the portfolio more breadth across applied AI domains.",
+      repoLongSummary(
+        "NanoCredit.AI",
+        "A finance-oriented machine-learning workflow shaped around nano-entrepreneurs and credit access.",
+      ),
     bullets: [
-      "Public repository name strongly suggests a credit-focused AI build.",
-      "Included as a non-duplicate project from the current GitHub account.",
-      "Adds useful domain range to the portfolio narrative.",
+      "Centers on creditworthiness modeling for nano-enterprises rather than traditional, better-documented borrowers.",
+      "Frames the project around financial inclusion and practical exploratory data analysis.",
+      "Extends the portfolio into higher-trust finance problems with a clear human outcome.",
     ],
     links: [{ label: "Open Repository", href: "https://github.com/BiradarScripts/NanoCredit.AI" }],
   },
@@ -437,18 +681,24 @@ export const projectCards: PortfolioCard[] = [
     title: "Prompt-flow",
     meta: "Python · Updated Sep 2024",
     summary:
-      "A workflow automation project for SDLC and low-code/no-code acceleration, pulled directly from the public GitHub account.",
+      repoSummary(
+        "Prompt-flow",
+        "An AI-orchestrated code generation and deployment workflow for turning prompts into full project scaffolds.",
+      ),
     tags: ["Automation", "SDLC", "Python"],
     accent: "PF",
     palette: "magenta",
     surface: "stack",
     previewLabels: ["Flow", "Prompt", "SDLC", "LCNC"],
     detailIntro:
-      "This project lines up well with the portfolio's product-engineering story because it sits at the intersection of AI and developer workflows.",
+      repoLongSummary(
+        "Prompt-flow",
+        "An autonomous pipeline that combines LangChain, LLMs, and deployment steps for faster software delivery.",
+      ),
     bullets: [
-      "GitHub description references automating SDLC to achieve LCNC workflows.",
-      "Implemented in Python according to the public repository metadata.",
-      "Kept as a non-redundant project because it brings in tooling and automation themes.",
+      "Uses prompt-driven orchestration to move from idea to generated code and deployment steps.",
+      "Sits at the intersection of developer tooling, automation, and applied LLM workflows.",
+      "Fits the broader portfolio story around turning language into capability.",
     ],
     links: [{ label: "Open Repository", href: "https://github.com/BiradarScripts/Prompt-flow" }],
   },
@@ -459,18 +709,24 @@ export const projectCards: PortfolioCard[] = [
     title: "EconeXus",
     meta: "JavaScript · Updated Sep 2024",
     summary:
-      "A full-stack social platform for interest-based networking and community discovery, retained as the single representative EconeXus project.",
+      repoSummary(
+        "Econexus",
+        "A full-stack social platform for interest-based networking and community discovery.",
+      ),
     tags: ["MERN", "Social Product", "Full Stack"],
     accent: "EX",
     palette: "violet",
     surface: "mesh",
     previewLabels: ["Profiles", "Feeds", "Community", "MERN"],
     detailIntro:
-      "This stays in the portfolio because it is a cleaner representative of the EconeXus product than the split frontend/backend repos.",
+      repoLongSummary(
+        "Econexus",
+        "A virtual platform built around matching people through shared interests, communities, and conversations.",
+      ),
     bullets: [
-      "Built as a social platform for networking and community discovery.",
-      "Used as the canonical EconeXus portfolio entry while redundant split repos are omitted.",
-      "Useful for showing product-building range beyond pure AI systems.",
+      "Built as the single representative entry for the EconeXus concept while the split frontend and backend repos are omitted here.",
+      "Explores product-building patterns around networking, profiles, and community discovery.",
+      "Shows range beyond AI-heavy systems and into broader full-stack product work.",
     ],
     links: [{ label: "Open Repository", href: "https://github.com/BiradarScripts/Econexus" }],
   },
@@ -481,18 +737,24 @@ export const projectCards: PortfolioCard[] = [
     title: "Apna Doctor",
     meta: "JavaScript · Updated Apr 2024",
     summary:
-      "A healthcare-themed application from the public GitHub account that complements the broader product-engineering portfolio.",
+      repoSummary(
+        "Apna-Doctor",
+        "A doctor-patient chatbot workflow designed around appointments, symptom questions, and basic healthcare support.",
+      ),
     tags: ["Healthcare", "JavaScript", "Platform"],
     accent: "AD",
     palette: "cyan",
     surface: "beam",
     previewLabels: ["Doctors", "Patients", "Web", "Care"],
     detailIntro:
-      "This project stays because it adds a practical application layer and broadens the site beyond one genre of software.",
+      repoLongSummary(
+        "Apna-Doctor",
+        "A healthcare chatbot application that helps with appointments, medical information, and symptom-led queries.",
+      ),
     bullets: [
-      "Distinct healthcare-oriented repository from the public GitHub list.",
-      "Kept as a unique product entry rather than a duplicate or coursework repo.",
-      "Adds more application variety to the portfolio.",
+      "Designed around common doctor-patient interaction flows including appointments and question handling.",
+      "Keeps the healthcare thread in the portfolio grounded in a product-facing interface.",
+      "Broadens the work beyond benchmarks and challenge-style builds.",
     ],
     links: [{ label: "Open Repository", href: "https://github.com/BiradarScripts/Apna-Doctor" }],
   },
@@ -542,30 +804,30 @@ export const projectCards: PortfolioCard[] = [
   },
 ];
 
-export const achievementCards: PortfolioCard[] = [
-  {
-    id: "hackathon-wins",
-    section: "achievements",
-    eyebrow: "National Recognition",
-    title: "5x National-Level Hackathon Winner",
-    meta: "Aug 2024 – Present",
-    summary:
-      "Repeated wins across startup tooling, multimodal ML, and financial inclusion challenges.",
-    tags: ["Execution", "Competitive Edge", "Product Thinking"],
-    accent: "HW",
-    metric: "5x",
-    palette: "emerald",
-    surface: "pulse",
-    previewLabels: ["Accenture", "RBIH", "Canara", "GenAI"],
-    detailIntro:
-      "Competitive environments fit me well because they reward sharp thinking, coherent storytelling, and the ability to finish under pressure.",
-    bullets: [
-      "Won the Accenture Innovation Challenge with an AI tool that helped startups launch sites, ads, and CI/CD workflows.",
-      "Won the RBIH and Canara Bank Codeathon with an AI-driven MSME identity creation system.",
-      "Reached finalist and top placements across multiple high-pressure national competitions.",
+export const repoArchiveCards: PortfolioCard[] = repoCatalogEntries
+  .filter((repo) => !hiddenRepoNames.has(repo.name))
+  .filter((repo) => !featuredRepoNames.has(repo.name))
+  .map((repo, index) => ({
+    id: `repo-${repo.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+    section: "projects" as const,
+    eyebrow: repo.fork ? "Forked Experiment" : "Repository Archive",
+    title: titleFromRepoName(repo.name),
+    meta: `${repo.language} · Updated ${formatUpdatedMonth(repo.updated)}`,
+    summary: cleanRepoText(repo.summary, repo.name, 190),
+    tags: deriveRepoTags(repo),
+    accent: accentFromTitle(titleFromRepoName(repo.name)),
+    detailIntro: cleanRepoText(repo.longSummary || repo.summary, repo.name, 420),
+    bullets: deriveRepoBullets(repo),
+    links: [
+      { label: "Open Repository", href: repo.url },
+      ...(repo.homepage ? [{ label: "Live Preview", href: repo.homepage }] : []),
     ],
-    links: [{ label: "GitHub", href: identity.github }],
-  },
+    palette: paletteCycle[index % paletteCycle.length],
+    surface: surfaceCycle[index % surfaceCycle.length],
+    previewLabels: deriveRepoTags(repo),
+  }));
+
+export const achievementCards: PortfolioCard[] = [
   {
     id: "accenture-winner",
     section: "achievements",

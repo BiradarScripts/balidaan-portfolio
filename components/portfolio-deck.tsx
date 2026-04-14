@@ -10,6 +10,7 @@ import {
   identity,
   projectCards,
   quickStats,
+  repoArchiveCards,
   timelineMilestones,
   timelineYears,
   type ColumnId,
@@ -93,7 +94,11 @@ export function PortfolioDeck() {
         <header className="deck-topbar">
           <div className="deck-brand">
             <p className="deck-brand__eyebrow">Portfolio</p>
-            <h1>{identity.name}</h1>
+            <div className="deck-brand__title">
+              <h1>{identity.name}</h1>
+              <span className="deck-brand__alias">{identity.alias}</span>
+            </div>
+            <p className="deck-brand__subline">{identity.role}</p>
           </div>
 
           <div className="deck-nav">
@@ -352,6 +357,41 @@ function ProjectsColumn({
           </div>
         </button>
       ))}
+
+      <section className="archive-cluster" aria-label="Repository archive">
+        <div className="archive-cluster__header">
+          <p>Repository Atlas</p>
+          <span>README-based snapshots from the broader GitHub body of work.</span>
+        </div>
+
+        <div className="archive-cluster__list">
+          {repoArchiveCards.map((card) => (
+            <button
+              key={card.id}
+              type="button"
+              className="repo-archive-card"
+              onClick={() => onOpenCard(card)}
+            >
+              <div className="entry-card__topline">
+                <p>{card.eyebrow}</p>
+                <span>{card.accent}</span>
+              </div>
+              <div className="repo-archive-card__main">
+                <div>
+                  <h4>{card.title}</h4>
+                  <strong>{card.meta}</strong>
+                </div>
+                <p>{card.summary}</p>
+              </div>
+              <div className="tag-row">
+                {card.tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
