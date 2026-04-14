@@ -369,90 +369,109 @@ button {
     linear-gradient(180deg, #1a2710, #131d0c);
 }
 
-.portrait-card__image::before {
-  content: "";
+.portrait-card__image .glitch-overlay {
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    transparent 2px,
-    rgba(140, 255, 149, 0.03) 2px,
-    rgba(140, 255, 149, 0.03) 4px
-  );
-  pointer-events: none;
-  z-index: 3;
-  animation: scanlines 8s linear infinite;
-}
-
-.portrait-card__image::after {
-  content: "";
-  position: absolute;
-  top: -100%;
-  left: 0;
-  right: 0;
-  height: 20%;
-  background: linear-gradient(
-    180deg,
-    rgba(140, 255, 149, 0) 0%,
-    rgba(140, 255, 149, 0.08) 50%,
-    rgba(140, 255, 149, 0) 100%
-  );
-  animation: glitch-scan 4s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 4;
-}
-
-.portrait-card__image .bit-stream {
-  position: absolute;
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: rgba(140, 255, 149, 0.7);
   pointer-events: none;
   z-index: 2;
-  opacity: 0.6;
-  white-space: nowrap;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.15);
+  animation: glitch-bg 0.3s steps(2) infinite;
 }
 
-.portrait-card__image .bit-stream--1 {
-  top: 8%;
-  left: 5%;
-  animation: bit-float-1 3s ease-in-out infinite;
+.portrait-card__image .glitch-overlay::before,
+.portrait-card__image .glitch-overlay::after {
+  content: "balidaan.exe";
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #8cff95;
+  text-shadow: 0 0 8px #8cff95, 0 0 16px rgba(140, 255, 149, 0.6);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
 }
 
-.portrait-card__image .bit-stream--2 {
-  bottom: 12%;
+.portrait-card__image .glitch-overlay::before {
+  top: 6%;
+  left: 6%;
+  animation: glitch-text-1 2s steps(3) infinite;
+}
+
+.portrait-card__image .glitch-overlay::after {
+  bottom: 8%;
   right: 8%;
-  animation: bit-float-2 4s ease-in-out infinite 0.5s;
+  animation: glitch-text-2 2.5s steps(4) infinite 0.7s;
 }
 
-@keyframes scanlines {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(120px); }
+.portrait-card__image .code-rain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  justify-content: space-around;
+  overflow: hidden;
 }
 
-@keyframes glitch-scan {
-  0%, 100% { top: -100%; opacity: 0; }
-  10% { opacity: 1; }
-  50% { top: 100%; opacity: 0; }
-  51% { top: -100%; opacity: 0; }
-  52% { top: -100%; opacity: 1; }
-  90% { top: 100%; opacity: 1; }
+.portrait-card__image .code-rain span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: rgba(140, 255, 149, 0.35);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  animation: code-fall 4s linear infinite;
 }
 
-@keyframes bit-float-1 {
-  0%, 100% { transform: translateY(0); opacity: 0.6; }
-  50% { transform: translateY(8px); opacity: 0.3; }
+.portrait-card__image .code-rain span:nth-child(1) { left: 8%; animation-delay: 0s; }
+.portrait-card__image .code-rain span:nth-child(2) { left: 25%; animation-delay: 1s; }
+.portrait-card__image .code-rain span:nth-child(3) { left: 50%; animation-delay: 2s; }
+.portrait-card__image .code-rain span:nth-child(4) { left: 75%; animation-delay: 0.5s; }
+.portrait-card__image .code-rain span:nth-child(5) { right: 8%; animation-delay: 1.5s; }
+
+@keyframes glitch-bg {
+  0%, 100% { background: rgba(0, 0, 0, 0.12); }
+  50% { background: rgba(0, 0, 0, 0.22); }
 }
 
-@keyframes bit-float-2 {
-  0%, 100% { transform: translateY(0); opacity: 0.5; }
-  50% { transform: translateY(-6px); opacity: 0.2; }
+@keyframes glitch-text-1 {
+  0%, 100% { transform: translateX(0); opacity: 1; }
+  25% { transform: translateX(-3px); opacity: 0.8; }
+  50% { transform: translateX(3px); opacity: 0.9; }
+  75% { transform: translateX(-2px); opacity: 0.7; }
+}
+
+@keyframes glitch-text-2 {
+  0%, 100% { transform: translateX(0); opacity: 1; }
+  33% { transform: translateX(2px); opacity: 0.75; }
+  66% { transform: translateX(-2px); opacity: 0.85; }
+}
+
+@keyframes code-fall {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(300%); opacity: 0; }
+}
+
+@media (max-width: 640px) {
+  .portrait-card__image .glitch-overlay::before,
+  .portrait-card__image .glitch-overlay::after {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  .portrait-card__image .code-rain span {
+    font-size: 0.55rem;
+  }
 }
 
 .portrait-card__image img {
   object-fit: cover;
-  object-position: center 72%;
+  object-position: center 18%;
   transform: scale(1.22);
   filter:
     grayscale(1)
@@ -467,18 +486,18 @@ button {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, rgba(217, 255, 190, 0.24), transparent 55%),
+    linear-gradient(135deg, rgba(217, 255, 190, 0.12), transparent 55%),
     repeating-linear-gradient(
       180deg,
-      rgba(214, 255, 188, 0.18) 0,
-      rgba(214, 255, 188, 0.18) 2px,
+      rgba(214, 255, 188, 0.08) 0,
+      rgba(214, 255, 188, 0.08) 2px,
       rgba(0, 0, 0, 0) 2px,
       rgba(0, 0, 0, 0) 4px
     ),
     repeating-linear-gradient(
       90deg,
-      rgba(176, 236, 141, 0.08) 0,
-      rgba(176, 236, 141, 0.08) 1px,
+      rgba(176, 236, 141, 0.04) 0,
+      rgba(176, 236, 141, 0.04) 1px,
       rgba(0, 0, 0, 0) 1px,
       rgba(0, 0, 0, 0) 6px
     );

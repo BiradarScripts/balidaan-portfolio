@@ -205,8 +205,14 @@ function AboutColumn({
             sizes="(max-width: 900px) 100vw, 30vw"
           />
           <div className="portrait-card__screen" aria-hidden="true" />
-          <span className="bit-stream bit-stream--1">01001101</span>
-          <span className="bit-stream bit-stream--2">10110010</span>
+          <div className="code-rain" aria-hidden="true">
+            <span>01101001</span>
+            <span>10110010</span>
+            <span>01001101</span>
+            <span>11010111</span>
+            <span>00111010</span>
+          </div>
+          <div className="glitch-overlay" aria-hidden="true" />
         </div>
 
         <div className="portrait-card__copy">
