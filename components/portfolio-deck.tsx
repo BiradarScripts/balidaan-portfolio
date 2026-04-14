@@ -32,9 +32,6 @@ export function PortfolioDeck() {
     projects: null,
     achievements: null,
   });
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-  const isDraggingRef = useRef(false);
-  const dragStartRef = useRef<{ x: number; y: number } | null>(null);
 
   const maxSlideIndex = Math.max(columnOrder.length - 3, 0);
 
@@ -47,129 +44,11 @@ export function PortfolioDeck() {
       if (event.key === "Escape") {
         setSelectedCard(null);
       }
-      if (event.key === "ArrowRight") {
-        moveColumn(1);
-      }
-      if (event.key === "ArrowLeft") {
-        moveColumn(-1);
-      }
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [selectedCard]);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (!touchStartRef.current) return;
-    
-    const deltaX = e.changedTouches[0].clientX - touchStartRef.current.x;
-    const deltaY = e.changedTouches[0].clientY - touchStartRef.current.y;
-    const minSwipe = 40;
-    
-    if (Math.abs(deltaX) > minSwipe && Math.abs(deltaX) > Math.abs(deltaY)) {
-      if (deltaX > 0) {
-        moveColumn(1);
-      } else {
-        moveColumn(-1);
-      }
-    }
-    touchStartRef.current = null;
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    dragStartRef.current = { x: e.clientX, y: e.clientY };
-    isDraggingRef.current = true;
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDraggingRef.current || !dragStartRef.current) return;
-    
-    const deltaX = e.clientX - dragStartRef.current.x;
-    const deltaY = e.clientY - dragStartRef.current.y;
-    const minSwipe = 40;
-    
-    if (Math.abs(deltaX) > minSwipe && Math.abs(deltaX) > Math.abs(deltaY)) {
-      if (deltaX > 0) {
-        moveColumn(1);
-      } else {
-        moveColumn(-1);
-      }
-      isDraggingRef.current = false;
-      dragStartRef.current = null;
-    }
-  };
-
-  const handleMouseUp = () => {
-    isDraggingRef.current = false;
-    dragStartRef.current = null;
-  };
-
-  useEffect(() => {
-    let dragStartX: number | null = null;
-    let isDragging = false;
-
-    const handleWheel = (e: Event) => {
-      const we = e as WheelEvent;
-      if (Math.abs(we.deltaX) > 10) {
-        e.preventDefault();
-        if (we.deltaX > 0) {
-          moveColumn(1);
-        } else {
-          moveColumn(-1);
-        }
-      }
-    };
-
-    const handleMouseDown = (e: MouseEvent) => {
-      dragStartX = e.clientX;
-      isDragging = true;
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging || dragStartX === null) return;
-      const deltaX = e.clientX - dragStartX;
-      if (Math.abs(deltaX) > 40) {
-        if (deltaX > 0) {
-          moveColumn(1);
-        } else {
-          moveColumn(-1);
-        }
-        isDragging = false;
-        dragStartX = null;
-      }
-    };
-
-    const handleMouseUp = () => {
-      isDragging = false;
-      dragStartX = null;
-    };
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") {
-        moveColumn(1);
-      } else if (e.key === "ArrowLeft") {
-        moveColumn(-1);
-      }
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("keydown", handleKeyDown);
-    
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
 
   const focusColumn = (columnId: ColumnId) => {
     startTransition(() => {
@@ -245,8 +124,6 @@ export function PortfolioDeck() {
         <section 
           className="deck-viewport" 
           aria-label="Interactive portfolio columns"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
         >
           <div
             className="deck-rail"

@@ -224,14 +224,6 @@ button {
   overflow: hidden;
 }
 
-.deck-viewport--swipeable {
-  cursor: grab;
-}
-
-.deck-viewport--swipeable:active {
-  cursor: grabbing;
-}
-
 .deck-rail {
   display: flex;
   gap: var(--deck-gap);
