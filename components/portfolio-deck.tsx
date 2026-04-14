@@ -98,7 +98,7 @@ export function PortfolioDeck() {
               <h1>{identity.name}</h1>
               <span className="deck-brand__alias">{identity.alias}</span>
             </div>
-            <p className="deck-brand__subline">{identity.role}</p>
+            {/* <p className="deck-brand__subline">{identity.role}</p> */}
           </div>
 
           <div className="deck-nav">
