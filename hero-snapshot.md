@@ -1,0 +1,82 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e3]:
+      - button "Scroll to hero section" [ref=e4]: SB
+      - generic [ref=e5]:
+        - button "01 Index" [ref=e6]:
+          - generic [ref=e7]: "01"
+          - generic [ref=e9]: Index
+        - button "02 Wins" [ref=e10]:
+          - generic [ref=e11]: "02"
+          - generic [ref=e13]: Wins
+        - button "03 Projects" [ref=e14]:
+          - generic [ref=e15]: "03"
+          - generic [ref=e17]: Projects
+        - button "04 Experience" [ref=e18]:
+          - generic [ref=e19]: "04"
+          - generic [ref=e21]: Experience
+        - button "05 Edge" [ref=e22]:
+          - generic [ref=e23]: "05"
+          - generic [ref=e25]: Edge
+        - button "06 Connect" [ref=e26]:
+          - generic [ref=e27]: "06"
+          - generic [ref=e29]: Connect
+      - generic [ref=e30]: Balidaan
+    - generic [ref=e32]:
+      - generic [ref=e33]:
+        - generic [ref=e38]: BALIDAAN
+        - generic [ref=e40]: Open to Work / 2027
+        - generic [ref=e42]:
+          - generic [ref=e43]
+          - complementary [ref=e110]
+        - generic [ref=e142]: Full name / Shreyas Biradar
+      - generic [ref=e143]:
+        - generic [ref=e144]:
+          - generic [ref=e145]
+          - generic [ref=e148]
+        - generic [ref=e152]:
+          - article [ref=e153]
+          - article [ref=e169]
+          - article [ref=e185]
+          - article [ref=e201]
+          - article [ref=e217]
+      - generic [ref=e233]:
+        - generic [ref=e234]:
+          - generic [ref=e235]
+          - paragraph [ref=e237]: Five research-heavy builds and one product platform that best capture how I think, prototype, and ship.
+        - generic [ref=e238]:
+          - article [ref=e239] [cursor=pointer]
+          - article [ref=e253] [cursor=pointer]
+          - article [ref=e267] [cursor=pointer]
+          - article [ref=e281] [cursor=pointer]
+          - article [ref=e295] [cursor=pointer]
+          - article [ref=e309] [cursor=pointer]
+      - generic [ref=e324]:
+        - generic [ref=e325]:
+          - text: 03 / Experience
+          - heading "WHERE I'VE WORKED" [level=2] [ref=e326]
+          - paragraph [ref=e327]: I like roles where research, backend systems, and product speed all have to meet in the same room.
+          - generic [ref=e328]
+        - generic [ref=e335]:
+          - article [ref=e336]
+          - article [ref=e352]
+      - generic [ref=e365]:
+        - generic [ref=e366]:
+          - text: 04 / Edge
+          - heading "HOW BALIDAAN BUILDS" [level=2] [ref=e367]
+          - paragraph [ref=e368]: "Four principles that keep my work grounded: durable systems, multimodal thinking, honest research, and product speed."
+        - generic [ref=e369]:
+          - article [ref=e370]
+          - article [ref=e381]
+          - article [ref=e392]
+          - article [ref=e403]
+      - generic [ref=e414]:
+        - generic [ref=e415]:
+          - generic [ref=e416]
+          - generic [ref=e424]
+        - generic [ref=e437]:
+          - paragraph [ref=e438]: © 2026 Shreyas Biradar. All rights reserved.
+          - paragraph [ref=e439]: "Full name: Shreyas Biradar. Alias: Balidaan."
+  - button "Open Next.js Dev Tools" [ref=e445] [cursor=pointer]:
+    - img [ref=e446]
+  - alert [ref=e489]

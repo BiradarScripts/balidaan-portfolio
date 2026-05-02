@@ -1,0 +1,220 @@
+- main [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - button "Index" [ref=e5]:
+        - generic [ref=e7]: Index
+      - button "Signals" [ref=e8]:
+        - generic [ref=e10]: Signals
+      - button "Experiments" [ref=e11]:
+        - generic [ref=e13]: Experiments
+      - button "Principles" [ref=e14]:
+        - generic [ref=e16]: Principles
+      - button "Colophon" [ref=e17]:
+        - generic [ref=e19]: Colophon
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - generic [ref=e24]: BUILDING
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic "SHREYAS" [ref=e27] [cursor=pointer]
+          - button "Unmute sound effects" [ref=e50]:
+            - img [ref=e51]
+            - generic [ref=e55]: Sound Off
+        - heading "AI Engineer & Multimodal Builder" [level=2] [ref=e56]
+        - paragraph [ref=e57]: Building at the edge of inference. Research depth × Distributed systems × Product instinct. Currently at Krutrim AI (OLA), crafting multilingual ETL pipelines, FastAPI model services, and AI infrastructure that actually scales.
+        - generic [ref=e58]:
+          - link "View Projects" [ref=e59] [cursor=pointer]:
+            - /url: "#work"
+            - generic [ref=e60]: View Projects
+            - img [ref=e61]
+          - link "Latest Wins" [ref=e63] [cursor=pointer]:
+            - /url: "#signals"
+      - generic [ref=e65]: IIIT Bangalore · ECE 2027
+    - generic [ref=e66]:
+      - generic [ref=e67]:
+        - text: 01 / Wins
+        - heading "LATEST WINS" [level=2] [ref=e68]
+      - generic [ref=e69]:
+        - article [ref=e70]:
+          - generic [ref=e71]:
+            - generic [ref=e73]:
+              - generic [ref=e74]: No. 01
+              - time [ref=e75]: "2025.08"
+            - heading "5x Winner" [level=3] [ref=e76]
+            - paragraph [ref=e78]: National Level Hackathons - Amazon ML, Flipkart Grid, Accenture, RBIH Codeathon, Google GenAI
+        - article [ref=e82]:
+          - generic [ref=e83]:
+            - generic [ref=e85]:
+              - generic [ref=e86]: No. 02
+              - time [ref=e87]: "2025.07"
+            - heading "Krutrim AI" [level=3] [ref=e88]
+            - paragraph [ref=e90]: Summer Research Intern - Dockerized ETL pipelines, FastAPI microservices, AWS EKS deployment
+        - article [ref=e94]:
+          - generic [ref=e95]:
+            - generic [ref=e97]:
+              - generic [ref=e98]: No. 03
+              - time [ref=e99]: "2024.08"
+            - heading "Amazon AIR 156" [level=3] [ref=e100]
+            - paragraph [ref=e102]: Multimodal price predictor using images and text - Top 15 nationally
+        - article [ref=e106]:
+          - generic [ref=e107]:
+            - generic [ref=e109]:
+              - generic [ref=e110]: No. 04
+              - time [ref=e111]: "2024.07"
+            - heading "Flipkart Grid 6.0" [level=3] [ref=e112]
+            - paragraph [ref=e114]: 2nd Runner-up - ML models for food freshness, MRP, and expiry detection
+        - article [ref=e118]:
+          - generic [ref=e119]:
+            - generic [ref=e121]:
+              - generic [ref=e122]: No. 05
+              - time [ref=e123]: "2024.06"
+            - heading "Accenture Winner" [level=3] [ref=e124]
+            - paragraph [ref=e126]: AI tool for auto-launching sites, ads, and CI/CD pipelines for startups
+    - generic [ref=e130]:
+      - generic [ref=e131]:
+        - generic [ref=e132]:
+          - text: 02 / Projects
+          - heading "SELECTED WORK" [level=2] [ref=e133]
+        - paragraph [ref=e134]: Building systems that scale. From market forecasting to accessibility solutions.
+      - generic [ref=e135]:
+        - article [ref=e136] [cursor=pointer]:
+          - generic [ref=e138]:
+            - text: ML Research
+            - heading "Quant-Gambit" [level=3] [ref=e139]
+          - paragraph [ref=e141]: LSTM, Transformer, Mamba models for time-series market forecasting. R² improved from 0.27 to 0.36.
+          - generic [ref=e142]: "01"
+        - article [ref=e146] [cursor=pointer]:
+          - generic [ref=e148]:
+            - text: Deep Learning
+            - heading "Multimodal VQA" [level=3] [ref=e149]
+          - paragraph [ref=e151]: "BLIP + LoRA pipeline for visual question answering. EM: 13.28% → 20.53%, ROUGE-L: 0.142 → 0.214."
+          - generic [ref=e152]: "02"
+        - article [ref=e156] [cursor=pointer]:
+          - generic [ref=e158]:
+            - text: AI Security
+            - heading "LedgerShield" [level=3] [ref=e159]
+          - paragraph [ref=e161]: State-of-the-art multimodal accounts payable audit system for enterprise DocAI.
+          - generic [ref=e162]: "03"
+        - article [ref=e166] [cursor=pointer]:
+          - generic [ref=e168]:
+            - text: Accessibility
+            - heading "Braille" [level=3] [ref=e169]
+          - paragraph [ref=e171]: Handwritten notes tool with Gemini AI summarization. Partnered with University of Zurich.
+          - generic [ref=e172]: "04"
+        - article [ref=e176] [cursor=pointer]:
+          - generic [ref=e178]:
+            - text: NLP
+            - heading "Vaani X" [level=3] [ref=e179]
+          - paragraph [ref=e181]: Kannada audio transcription with Whisper AI and fine-tuned LLaMA. RAG with AWS Kinesis.
+          - generic [ref=e182]: "05"
+        - article [ref=e186] [cursor=pointer]:
+          - generic [ref=e188]:
+            - text: Full Stack
+            - heading "Econexus" [level=3] [ref=e189]
+          - paragraph [ref=e191]: MERN stack social platform for interest-based networking. 1.2K+ users served.
+          - generic [ref=e192]: "06"
+    - generic [ref=e196]:
+      - generic [ref=e197]:
+        - text: 05 / Experience
+        - heading "WHERE I'VE WORKED" [level=2] [ref=e198]
+      - generic [ref=e199]:
+        - article [ref=e200]:
+          - generic [ref=e203]:
+            - generic [ref=e204]: May 2025 – Jul 2025
+            - generic [ref=e205]:
+              - heading "Summer Research Intern" [level=3] [ref=e206]
+              - paragraph [ref=e207]: Krutrim AI (OLA) · Bengaluru, India
+            - list [ref=e208]:
+              - listitem [ref=e209]:
+                - generic [ref=e211]: Engineered a Dockerized SQL ETL pipeline to asynchronously ingest ~20k multilingual records into PostgreSQL
+              - listitem [ref=e212]:
+                - generic [ref=e214]: Deployed ML models as high-throughput FastAPI microservices for real-time automated data tagging
+              - listitem [ref=e215]:
+                - generic [ref=e217]: Orchestrated AWS EKS to serve a fine-tuned Krutrim 2.1, integrating scalable inference endpoints into the backend
+        - article [ref=e218]:
+          - generic [ref=e221]:
+            - generic [ref=e222]: Jun 2024 – Sep 2024
+            - generic [ref=e223]:
+              - heading "Software Developer Engineer Intern" [level=3] [ref=e224]
+              - paragraph [ref=e225]: Think LogiTech Solutions Private Limited · Bengaluru, India
+            - list [ref=e226]:
+              - listitem [ref=e227]:
+                - generic [ref=e229]: Contributed to a PG management platform for 100+ properties, building and maintaining payment integrations
+              - listitem [ref=e230]:
+                - generic [ref=e232]: Collaborated with 4+ cross-functional teams to ship features used by 1.2K+ users
+    - generic [ref=e233]:
+      - generic [ref=e234]:
+        - text: 03 / Stack
+        - heading "WHAT I BUILD WITH" [level=2] [ref=e235]
+      - generic [ref=e236]:
+        - article [ref=e237]:
+          - generic [ref=e238]: 01 / AI
+          - heading "AI INFRASTRUCTURE" [level=3] [ref=e239]:
+            - generic [ref=e240]: AI
+            - text: INFRASTRUCTURE
+          - paragraph [ref=e241]: FastAPI microservices, Dockerized ETL pipelines, AWS EKS deployments. Production-first systems.
+        - article [ref=e243]:
+          - generic [ref=e244]: 02 / MULTIMODAL
+          - heading "MULTIMODAL SYSTEMS" [level=3] [ref=e245]:
+            - generic [ref=e246]: MULTIMODAL
+            - text: SYSTEMS
+          - paragraph [ref=e247]: VQA with BLIP + LoRA, evaluation design beyond benchmarks. Models useful under pressure.
+        - article [ref=e249]:
+          - generic [ref=e250]: 03 / APPLIED
+          - heading "APPLIED RESEARCH" [level=3] [ref=e251]:
+            - text: APPLIED
+            - generic [ref=e252]: RESEARCH
+          - paragraph [ref=e253]: LSTM vs Transformer vs Mamba for forecasting. Rapid experiments that ship.
+        - article [ref=e255]:
+          - generic [ref=e256]: 04 / PRODUCT
+          - heading "PRODUCT INSTINCT" [level=3] [ref=e257]:
+            - text: PRODUCT
+            - generic [ref=e258]: INSTINCT
+          - paragraph [ref=e259]: 1000+ DSA problems solved. 1.2K+ users served. Build with force, measure honestly.
+    - generic [ref=e261]:
+      - generic [ref=e262]:
+        - text: 04 / Connect
+        - heading "LET'S BUILD" [level=2] [ref=e263]
+      - generic [ref=e264]:
+        - generic [ref=e265]:
+          - heading "Role" [level=4] [ref=e266]
+          - list [ref=e267]:
+            - listitem [ref=e268]: AI Engineer
+            - listitem [ref=e269]: Full Stack Dev
+            - listitem [ref=e270]: Researcher
+        - generic [ref=e271]:
+          - heading "Tech" [level=4] [ref=e272]
+          - list [ref=e273]:
+            - listitem [ref=e274]: Python, Java
+            - listitem [ref=e275]: React, Next.js
+            - listitem [ref=e276]: AWS, Docker
+        - generic [ref=e277]:
+          - heading "Current" [level=4] [ref=e278]
+          - list [ref=e279]:
+            - listitem [ref=e280]: Krutrim AI
+            - listitem [ref=e281]: IIIT Bangalore
+        - generic [ref=e282]:
+          - heading "Location" [level=4] [ref=e283]
+          - list [ref=e284]:
+            - listitem [ref=e285]: Bengaluru
+            - listitem [ref=e286]: India
+        - generic [ref=e287]:
+          - heading "Contact" [level=4] [ref=e288]
+          - list [ref=e289]:
+            - listitem [ref=e290]:
+              - link "Email" [ref=e291] [cursor=pointer]:
+                - /url: mailto:i2004shreyas@gmail.com
+            - listitem [ref=e292]:
+              - link "LinkedIn" [ref=e293] [cursor=pointer]:
+                - /url: https://linkedin.com/in/shreyas-biradar
+            - listitem [ref=e294]:
+              - link "GitHub" [ref=e295] [cursor=pointer]:
+                - /url: https://github.com/BiradarScripts
+        - generic [ref=e296]:
+          - heading "Year" [level=4] [ref=e297]
+          - list [ref=e298]:
+            - listitem [ref=e299]: "2027"
+            - listitem [ref=e300]: Open to Work
+      - generic [ref=e301]:
+        - paragraph [ref=e302]: © 2026 Shreyas Biradar. All rights reserved.
+        - paragraph [ref=e303]: Build with force. Measure honestly. Ship what matters.

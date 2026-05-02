@@ -1,0 +1,373 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e3]:
+      - button "Scroll to hero section" [ref=e4]: SB
+      - generic [ref=e5]:
+        - button "01 Index" [ref=e6]:
+          - generic [ref=e7]: "01"
+          - generic [ref=e9]: Index
+        - button "02 Wins" [ref=e10]:
+          - generic [ref=e11]: "02"
+          - generic [ref=e13]: Wins
+        - button "03 Projects" [ref=e14]:
+          - generic [ref=e15]: "03"
+          - generic [ref=e17]: Projects
+        - button "04 Experience" [ref=e18]:
+          - generic [ref=e19]: "04"
+          - generic [ref=e21]: Experience
+        - button "05 Edge" [ref=e22]:
+          - generic [ref=e23]: "05"
+          - generic [ref=e25]: Edge
+        - button "06 Connect" [ref=e26]:
+          - generic [ref=e27]: "06"
+          - generic [ref=e29]: Connect
+      - generic [ref=e30]: Balidaan
+    - generic [ref=e32]:
+      - generic [ref=e33]:
+        - generic [ref=e38]: BALIDAAN
+        - generic [ref=e40]: Open to Work / 2027
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e44]:
+              - generic [ref=e45]: Shreyas Biradar
+              - generic [ref=e46]: Alias / Balidaan
+              - generic [ref=e47]: IIIT Bangalore
+            - generic [ref=e48]:
+              - generic "BALIDAAN" [ref=e49] [cursor=pointer]
+              - button "Unmute sound effects" [ref=e75]:
+                - img [ref=e76]
+                - generic [ref=e80]: Sound Off
+            - paragraph [ref=e81]: SHREYAS BIRADAR
+            - heading "AI systems, multimodal products, and research infrastructure that survive contact with reality." [level=1] [ref=e82]
+            - paragraph [ref=e83]: I build under the name Balidaan when the work needs to feel sharp, deliberate, and impossible to ignore. My focus sits at the intersection of inference systems, applied research, and product execution, from multilingual ETL and FastAPI services to forecasting, VQA, and accessibility-first tools.
+            - generic [ref=e84]:
+              - link "Explore Projects" [ref=e85] [cursor=pointer]:
+                - /url: "#work"
+                - generic [ref=e86]: Explore Projects
+                - img [ref=e87]
+              - link "GitHub" [ref=e89] [cursor=pointer]:
+                - /url: https://github.com/BiradarScripts
+                - text: GitHub
+                - img [ref=e90]
+              - link "Contact" [ref=e93] [cursor=pointer]:
+                - /url: mailto:i2004shreyas@gmail.com
+                - text: Contact
+                - img [ref=e94]
+            - generic [ref=e97]:
+              - generic [ref=e98]:
+                - paragraph [ref=e99]: 5x
+                - paragraph [ref=e100]: national hackathon wins
+              - generic [ref=e101]:
+                - paragraph [ref=e102]: 20k
+                - paragraph [ref=e103]: multilingual records ingested
+              - generic [ref=e104]:
+                - paragraph [ref=e105]: 1.2k+
+                - paragraph [ref=e106]: users served in production
+              - generic [ref=e107]:
+                - paragraph [ref=e108]: 1000+
+                - paragraph [ref=e109]: DSA problems solved
+          - complementary [ref=e110]:
+            - paragraph [ref=e112]: Operating Profile
+            - generic [ref=e113]:
+              - generic [ref=e114]:
+                - paragraph [ref=e115]: Current station
+                - paragraph [ref=e116]: Krutrim AI (OLA)
+              - generic [ref=e117]:
+                - paragraph [ref=e118]: Education
+                - paragraph [ref=e119]: Integrated M.Tech in Electronics and Communication Engineering, IIIT Bangalore
+                - paragraph [ref=e120]: GPA 3.24 / 4.00
+              - generic [ref=e121]:
+                - paragraph [ref=e122]: Alias meaning
+                - paragraph [ref=e123]: Balidaan is the builder identity I use for work that has to feel bold, precise, and high-stakes.
+            - generic [ref=e124]:
+              - paragraph [ref=e125]: Core zones
+              - generic [ref=e126]:
+                - generic [ref=e127]: Multimodal AI
+                - generic [ref=e128]: FastAPI + EKS
+                - generic [ref=e129]: Forecasting
+                - generic [ref=e130]: Accessibility
+                - generic [ref=e131]: Full-stack Products
+            - generic [ref=e132]:
+              - link "Latest wins" [ref=e133] [cursor=pointer]:
+                - /url: "#signals"
+                - text: Latest wins
+                - img [ref=e134]
+              - link "Reach out" [ref=e137] [cursor=pointer]:
+                - /url: mailto:i2004shreyas@gmail.com
+                - text: Reach out
+                - img [ref=e138]
+        - generic [ref=e142]: Full name / Shreyas Biradar
+      - generic [ref=e143]:
+        - generic [ref=e144]:
+          - generic [ref=e145]:
+            - text: 01 / Wins
+            - heading "LATEST WINS" [level=2] [ref=e146]
+            - paragraph [ref=e147]: Milestones from internships, national challenges, and high-pressure builds. Each one shaped the way I work under the name Balidaan.
+          - generic [ref=e148]:
+            - paragraph [ref=e149]: Signal window
+            - paragraph [ref=e150]: 2024 - 2025
+            - paragraph [ref=e151]: Computer vision, multimodal ML, product automation, and production AI systems.
+        - generic [ref=e152]:
+          - article [ref=e153]:
+            - generic [ref=e155]:
+              - generic [ref=e156]:
+                - generic [ref=e157]:
+                  - generic [ref=e158]: Winning streak
+                  - generic [ref=e159]:
+                    - time [ref=e160]: "2025.08"
+                    - paragraph [ref=e161]: Top 5 / AIR 156
+                - generic [ref=e163]: No. 01
+                - heading "5x National Winner" [level=3] [ref=e165]
+                - paragraph [ref=e166]: Amazon ML, Flipkart Grid, Accenture, RBIH Codeathon, and Google GenAI Exchange across ML, fintech, and product tracks.
+              - generic [ref=e167]: Live signal
+          - article [ref=e169]:
+            - generic [ref=e171]:
+              - generic [ref=e172]:
+                - generic [ref=e173]:
+                  - generic [ref=e174]: Research internship
+                  - generic [ref=e175]:
+                    - time [ref=e176]: "2025.07"
+                    - paragraph [ref=e177]: ~20k records
+                - generic [ref=e179]: No. 02
+                - heading "Krutrim AI" [level=3] [ref=e181]
+                - paragraph [ref=e182]: Built multilingual ETL pipelines, deployed FastAPI inference services, and served a fine-tuned Krutrim 2.1 stack on AWS EKS.
+              - generic [ref=e183]: Live signal
+          - article [ref=e185]:
+            - generic [ref=e187]:
+              - generic [ref=e188]:
+                - generic [ref=e189]:
+                  - generic [ref=e190]: National ranking
+                  - generic [ref=e191]:
+                    - time [ref=e192]: "2024.08"
+                    - paragraph [ref=e193]: Best 15
+                - generic [ref=e195]: No. 03
+                - heading "Amazon AIR 156" [level=3] [ref=e197]
+                - paragraph [ref=e198]: Built a multimodal price predictor using images and text, finishing AIR 156 and landing in the best 15 nationally.
+              - generic [ref=e199]: Live signal
+          - article [ref=e201]:
+            - generic [ref=e203]:
+              - generic [ref=e204]:
+                - generic [ref=e205]:
+                  - generic [ref=e206]: Computer vision
+                  - generic [ref=e207]:
+                    - time [ref=e208]: "2024.07"
+                    - paragraph [ref=e209]: 2nd runner-up
+                - generic [ref=e211]: No. 04
+                - heading "Flipkart Grid 6.0" [level=3] [ref=e213]
+                - paragraph [ref=e214]: Built ML pipelines for food freshness, MRP, and expiry detection, earning 2nd runner-up in a robotics-heavy challenge.
+              - generic [ref=e215]: Live signal
+          - article [ref=e217]:
+            - generic [ref=e219]:
+              - generic [ref=e220]:
+                - generic [ref=e221]:
+                  - generic [ref=e222]: Product build
+                  - generic [ref=e223]:
+                    - time [ref=e224]: "2024.06"
+                    - paragraph [ref=e225]: Challenge winner
+                - generic [ref=e227]: No. 05
+                - heading "Accenture Winner" [level=3] [ref=e229]
+                - paragraph [ref=e230]: Created an AI tool that helped startups auto-launch sites, ads, and CI/CD flows fast enough to win the Innovation Challenge.
+              - generic [ref=e231]: Live signal
+      - generic [ref=e233]:
+        - generic [ref=e234]:
+          - generic [ref=e235]:
+            - text: 02 / Projects
+            - heading "SELECTED WORK" [level=2] [ref=e236]
+          - paragraph [ref=e237]: Five research-heavy builds and one product platform that best capture how I think, prototype, and ship.
+        - generic [ref=e238]:
+          - article [ref=e239] [cursor=pointer]:
+            - generic [ref=e241]:
+              - generic [ref=e242]:
+                - text: ML Research
+                - heading "Quant-Gambit" [level=3] [ref=e243]
+              - generic [ref=e244]: "2025"
+            - generic [ref=e245]:
+              - paragraph [ref=e246]: Built LSTM, Transformer, and Mamba models for forecasting market states with a reproducible offline evaluation pipeline.
+              - paragraph [ref=e247]: Python / PyTorch / Docker
+            - generic [ref=e248]:
+              - generic [ref=e249]:
+                - paragraph [ref=e250]: Outcome
+                - paragraph [ref=e251]: R² up to 0.3648
+              - generic [ref=e252]: "01"
+          - article [ref=e253] [cursor=pointer]:
+            - generic [ref=e255]:
+              - generic [ref=e256]:
+                - text: Deep Learning
+                - heading "Multimodal VQA" [level=3] [ref=e257]
+              - generic [ref=e258]: "2025"
+            - generic [ref=e259]:
+              - paragraph [ref=e260]: Curated 169,659 images and pushed a 13-version LoRA pipeline with stronger evaluation beyond exact match.
+              - paragraph [ref=e261]: PyTorch / BLIP / LoRA
+            - generic [ref=e262]:
+              - generic [ref=e263]:
+                - paragraph [ref=e264]: Outcome
+                - paragraph [ref=e265]: EM +7.25 points
+              - generic [ref=e266]: "02"
+          - article [ref=e267] [cursor=pointer]:
+            - generic [ref=e269]:
+              - generic [ref=e270]:
+                - text: AI Security
+                - heading "LedgerShield" [level=3] [ref=e271]
+              - generic [ref=e272]: "2026"
+            - generic [ref=e273]:
+              - paragraph [ref=e274]: A multimodal accounts payable audit system designed to stress-test enterprise DocAI workflows.
+              - paragraph [ref=e275]: Python / OCR / Agent Eval
+            - generic [ref=e276]:
+              - generic [ref=e277]:
+                - paragraph [ref=e278]: Outcome
+                - paragraph [ref=e279]: Enterprise audit focus
+              - generic [ref=e280]: "03"
+          - article [ref=e281] [cursor=pointer]:
+            - generic [ref=e283]:
+              - generic [ref=e284]:
+                - text: Accessibility
+                - heading "Braille" [level=3] [ref=e285]
+              - generic [ref=e286]: "2025"
+            - generic [ref=e287]:
+              - paragraph [ref=e288]: A local WiFi note transfer tool that combines handwritten capture, custom parsing, and AI summarization.
+              - paragraph [ref=e289]: Next.js / FastAPI / Gemini
+            - generic [ref=e290]:
+              - generic [ref=e291]:
+                - paragraph [ref=e292]: Outcome
+                - paragraph [ref=e293]: Zurich collaboration
+              - generic [ref=e294]: "04"
+          - article [ref=e295] [cursor=pointer]:
+            - generic [ref=e297]:
+              - generic [ref=e298]:
+                - text: NLP
+                - heading "Vaani X" [level=3] [ref=e299]
+              - generic [ref=e300]: "2024"
+            - generic [ref=e301]:
+              - paragraph [ref=e302]: Transcribed Kannada audio into actionable insights with Whisper, fine-tuned LLaMA, and real-time ingestion.
+              - paragraph [ref=e303]: Whisper / LLaMA / AWS Kinesis
+            - generic [ref=e304]:
+              - generic [ref=e305]:
+                - paragraph [ref=e306]: Outcome
+                - paragraph [ref=e307]: Voice + text UX
+              - generic [ref=e308]: "05"
+          - article [ref=e309] [cursor=pointer]:
+            - generic [ref=e311]:
+              - generic [ref=e312]:
+                - text: Full Stack
+                - heading "EconeXus" [level=3] [ref=e313]
+              - generic [ref=e314]: "2023"
+            - generic [ref=e315]:
+              - paragraph [ref=e316]: A MERN social platform for interest-based networking with scalable APIs, feeds, and future-ready system design.
+              - paragraph [ref=e317]: React / Node / MongoDB
+            - generic [ref=e318]:
+              - generic [ref=e319]:
+                - paragraph [ref=e320]: Outcome
+                - paragraph [ref=e321]: 1.2K+ users served
+              - generic [ref=e322]: "06"
+      - generic [ref=e324]:
+        - generic [ref=e325]:
+          - text: 03 / Experience
+          - heading "WHERE I'VE WORKED" [level=2] [ref=e326]
+          - paragraph [ref=e327]: I like roles where research, backend systems, and product speed all have to meet in the same room.
+          - generic [ref=e328]:
+            - generic [ref=e329]:
+              - paragraph [ref=e330]: Production
+              - paragraph [ref=e331]: FastAPI
+            - generic [ref=e332]:
+              - paragraph [ref=e333]: Infra
+              - paragraph [ref=e334]: AWS EKS
+        - generic [ref=e335]:
+          - article [ref=e336]:
+            - generic [ref=e337]:
+              - generic [ref=e338]:
+                - text: May 2025 – Jul 2025
+                - heading "Summer Research Intern" [level=3] [ref=e339]
+                - paragraph [ref=e340]: Krutrim AI (OLA) · Bengaluru, India
+              - generic [ref=e341]: "01"
+            - list [ref=e342]:
+              - listitem [ref=e343]:
+                - generic [ref=e345]: Engineered a Dockerized SQL ETL pipeline to asynchronously ingest ~20k multilingual records into PostgreSQL
+              - listitem [ref=e346]:
+                - generic [ref=e348]: Deployed ML models as high-throughput FastAPI microservices for real-time automated data tagging
+              - listitem [ref=e349]:
+                - generic [ref=e351]: Orchestrated AWS EKS to serve a fine-tuned Krutrim 2.1, integrating scalable inference endpoints into the backend
+          - article [ref=e352]:
+            - generic [ref=e353]:
+              - generic [ref=e354]:
+                - text: Jun 2024 – Sep 2024
+                - heading "Software Developer Engineer Intern" [level=3] [ref=e355]
+                - paragraph [ref=e356]: Think LogiTech Solutions Private Limited · Bengaluru, India
+              - generic [ref=e357]: "02"
+            - list [ref=e358]:
+              - listitem [ref=e359]:
+                - generic [ref=e361]: Contributed to a PG management platform for 100+ properties, building and maintaining payment integrations
+              - listitem [ref=e362]:
+                - generic [ref=e364]: Collaborated with 4+ cross-functional teams to ship features used by 1.2K+ users
+      - generic [ref=e365]:
+        - generic [ref=e366]:
+          - text: 04 / Edge
+          - heading "HOW BALIDAAN BUILDS" [level=2] [ref=e367]
+          - paragraph [ref=e368]: "Four principles that keep my work grounded: durable systems, multimodal thinking, honest research, and product speed."
+        - generic [ref=e369]:
+          - article [ref=e370]:
+            - generic [ref=e372]: "01"
+            - heading "Infra First" [level=3] [ref=e374]
+            - paragraph [ref=e375]: I like systems that can move from experiments into services without falling apart when usage becomes real.
+            - generic [ref=e376]:
+              - generic [ref=e377]: FastAPI
+              - generic [ref=e378]: Docker
+              - generic [ref=e379]: PostgreSQL
+              - generic [ref=e380]: AWS EKS
+          - article [ref=e381]:
+            - generic [ref=e383]: "02"
+            - heading "Multimodal by Default" [level=3] [ref=e385]
+            - paragraph [ref=e386]: My best work sits where images, text, handwriting, and speech all have to cooperate instead of living in isolation.
+            - generic [ref=e387]:
+              - generic [ref=e388]: BLIP
+              - generic [ref=e389]: LoRA
+              - generic [ref=e390]: Whisper
+              - generic [ref=e391]: LangChain
+          - article [ref=e392]:
+            - generic [ref=e394]: "03"
+            - heading "Research That Ships" [level=3] [ref=e396]
+            - paragraph [ref=e397]: I care about metrics, ablations, and diagnostics, but I care even more about whether the work survives contact with users.
+            - generic [ref=e398]:
+              - generic [ref=e399]: PyTorch
+              - generic [ref=e400]: Transformers
+              - generic [ref=e401]: Mamba
+              - generic [ref=e402]: Pandas
+          - article [ref=e403]:
+            - generic [ref=e405]: "04"
+            - heading "Product Speed" [level=3] [ref=e407]
+            - paragraph [ref=e408]: From hackathons to internships, I move quickly without treating polish, readability, or scale as optional extras.
+            - generic [ref=e409]:
+              - generic [ref=e410]: Next.js
+              - generic [ref=e411]: React
+              - generic [ref=e412]: Node.js
+              - generic [ref=e413]: MongoDB
+      - generic [ref=e414]:
+        - generic [ref=e415]:
+          - generic [ref=e416]:
+            - text: 05 / Connect
+            - heading "LET'S BUILD SOMETHING HARD" [level=2] [ref=e418]
+            - paragraph [ref=e419]: If you are building serious AI products, multimodal workflows, or backend systems that actually have to scale, I want to talk.
+            - generic [ref=e420]:
+              - link "i2004shreyas@gmail.com" [ref=e421] [cursor=pointer]:
+                - /url: mailto:i2004shreyas@gmail.com
+              - link "7416689570" [ref=e422] [cursor=pointer]:
+                - /url: tel:+917416689570
+              - link "GitHub" [ref=e423] [cursor=pointer]:
+                - /url: https://github.com/BiradarScripts
+          - generic [ref=e424]:
+            - generic [ref=e425]:
+              - paragraph [ref=e426]: Alias
+              - paragraph [ref=e427]: Balidaan
+            - generic [ref=e428]:
+              - paragraph [ref=e429]: Base
+              - paragraph [ref=e430]: Bengaluru / India
+            - generic [ref=e431]:
+              - paragraph [ref=e432]: Education
+              - paragraph [ref=e433]: IIIT Bangalore, IMTech ECE, 2022 - 2027
+            - generic [ref=e434]:
+              - paragraph [ref=e435]: Status
+              - paragraph [ref=e436]: Open to work
+        - generic [ref=e437]:
+          - paragraph [ref=e438]: © 2026 Shreyas Biradar. All rights reserved.
+          - paragraph [ref=e439]: "Full name: Shreyas Biradar. Alias: Balidaan."
+  - button "Open Next.js Dev Tools" [ref=e445] [cursor=pointer]:
+    - img [ref=e446]
