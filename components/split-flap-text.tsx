@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-import { motion } from "framer-motion"
 import { useMemo, useState, useCallback, useEffect, useRef, createContext, useContext } from "react"
 import { Volume2, VolumeX } from "lucide-react"
 
@@ -20,6 +19,18 @@ function useSplitFlapAudio() {
 export function SplitFlapAudioProvider({ children }: { children: React.ReactNode }) {
   const [isMuted, setIsMuted] = useState(false)
   const audioContextRef = useRef<AudioContext | null>(null)
+  const hasPlayedLandingRef = useRef(false)
+  const userActivatedRef = useRef(false)
+
+  const canUseAudioNow = useCallback(() => {
+    if (typeof navigator === "undefined") return false
+    const activation = (navigator as Navigator & { userActivation?: { hasBeenActive?: boolean; isActive?: boolean } }).userActivation
+    if (activation && typeof activation.hasBeenActive === "boolean") {
+      return Boolean(activation.hasBeenActive || activation.isActive)
+    }
+
+    return userActivatedRef.current
+  }, [])
 
   const getAudioContext = useCallback(() => {
     if (typeof window === "undefined") return null
@@ -32,15 +43,70 @@ export function SplitFlapAudioProvider({ children }: { children: React.ReactNode
     return audioContextRef.current
   }, [])
 
+  const playLandingBurst = useCallback(async () => {
+    if (isMuted || hasPlayedLandingRef.current) return
+    if (!canUseAudioNow()) return
+
+    try {
+      const ctx = getAudioContext()
+      if (!ctx) return
+
+      if (ctx.state === "suspended") {
+        await ctx.resume()
+      }
+
+      if (ctx.state !== "running") return
+
+      hasPlayedLandingRef.current = true
+      const start = ctx.currentTime
+      const master = ctx.createGain()
+      const filter = ctx.createBiquadFilter()
+
+      filter.type = "lowpass"
+      filter.frequency.setValueAtTime(2600, start)
+      filter.Q.setValueAtTime(0.7, start)
+
+      master.gain.setValueAtTime(0.001, start)
+      master.gain.exponentialRampToValueAtTime(0.075, start + 0.035)
+      master.gain.exponentialRampToValueAtTime(0.001, start + 0.42)
+
+      filter.connect(master)
+      master.connect(ctx.destination)
+
+      ;[196, 294, 392, 588].forEach((frequency, index) => {
+        const oscillator = ctx.createOscillator()
+        const gain = ctx.createGain()
+        const offset = index * 0.055
+
+        oscillator.type = index % 2 === 0 ? "square" : "triangle"
+        oscillator.frequency.setValueAtTime(frequency, start + offset)
+        oscillator.frequency.exponentialRampToValueAtTime(frequency * 0.72, start + offset + 0.11)
+
+        gain.gain.setValueAtTime(0.001, start + offset)
+        gain.gain.exponentialRampToValueAtTime(0.045, start + offset + 0.012)
+        gain.gain.exponentialRampToValueAtTime(0.001, start + offset + 0.13)
+
+        oscillator.connect(gain)
+        gain.connect(filter)
+        oscillator.start(start + offset)
+        oscillator.stop(start + offset + 0.14)
+      })
+    } catch {
+      hasPlayedLandingRef.current = false
+    }
+  }, [isMuted, getAudioContext, canUseAudioNow])
+
   const triggerHaptic = useCallback(() => {
     if (isMuted) return
+    if (!canUseAudioNow()) return
     if (typeof navigator !== "undefined" && "vibrate" in navigator) {
       navigator.vibrate(10)
     }
-  }, [isMuted])
+  }, [isMuted, canUseAudioNow])
 
   const playClick = useCallback(() => {
     if (isMuted) return
+    if (!canUseAudioNow()) return
 
     triggerHaptic()
 
@@ -49,7 +115,7 @@ export function SplitFlapAudioProvider({ children }: { children: React.ReactNode
       if (!ctx) return
 
       if (ctx.state === "suspended") {
-        ctx.resume()
+        void ctx.resume()
       }
 
       const oscillator = ctx.createOscillator()
@@ -82,7 +148,30 @@ export function SplitFlapAudioProvider({ children }: { children: React.ReactNode
     } catch {
       // Audio not supported
     }
-  }, [isMuted, getAudioContext, triggerHaptic])
+  }, [isMuted, getAudioContext, triggerHaptic, canUseAudioNow])
+
+  useEffect(() => {
+    if (isMuted || typeof window === "undefined") return
+
+    const unlockAudio = () => {
+      userActivatedRef.current = true
+      void playLandingBurst()
+    }
+
+    window.addEventListener("pointerdown", unlockAudio, { capture: true, once: true })
+    window.addEventListener("touchstart", unlockAudio, { capture: true, once: true })
+    window.addEventListener("keydown", unlockAudio, { capture: true, once: true })
+    window.addEventListener("wheel", unlockAudio, { capture: true, once: true })
+    window.addEventListener("scroll", unlockAudio, { capture: true, once: true })
+
+    return () => {
+      window.removeEventListener("pointerdown", unlockAudio, true)
+      window.removeEventListener("touchstart", unlockAudio, true)
+      window.removeEventListener("keydown", unlockAudio, true)
+      window.removeEventListener("wheel", unlockAudio, true)
+      window.removeEventListener("scroll", unlockAudio, true)
+    }
+  }, [isMuted, playLandingBurst])
 
   const toggleMute = useCallback(() => {
     setIsMuted((prev) => !prev)
@@ -90,8 +179,9 @@ export function SplitFlapAudioProvider({ children }: { children: React.ReactNode
       try {
         const ctx = getAudioContext()
         if (ctx && ctx.state === "suspended") {
-          ctx.resume()
+          void ctx.resume()
         }
+        hasPlayedLandingRef.current = false
       } catch {
         // Audio not supported
       }
@@ -237,27 +327,25 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, playCli
   if (isSpace) {
     return (
       <div
+        className="split-flap-space"
         style={{
           width: "0.3em",
-          fontSize: "clamp(4rem, 15vw, 14rem)",
         }}
       />
     )
   }
 
   return (
-    <motion.div
-      initial={skipEntrance ? false : { opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: tileDelay, duration: 0.3, ease: "easeOut" }}
-      className="relative overflow-hidden flex items-center justify-center font-[family-name:var(--font-bebas)]"
+    <div
+      className="split-flap-tile relative overflow-hidden flex items-center justify-center font-[family-name:var(--font-bebas)]"
       style={{
-        fontSize: "clamp(4rem, 15vw, 14rem)",
         width: "0.65em",
         height: "1.05em",
         backgroundColor: bgColor,
         transformStyle: "preserve-3d",
         transition: "background-color 0.15s ease",
+        animation: skipEntrance ? undefined : "split-flap-rise 0.3s ease-out both",
+        animationDelay: skipEntrance ? undefined : `${tileDelay}s`,
       }}
     >
       <div className="absolute inset-x-0 top-1/2 h-[1px] bg-black/20 pointer-events-none z-10" />
@@ -280,21 +368,16 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, playCli
         </span>
       </div>
 
-      <motion.div
+      <div
         key={`${animationKey}-${isSettled}`}
-        initial={{ rotateX: -90 }}
-        animate={{ rotateX: 0 }}
-        transition={{
-          delay: skipEntrance ? tileDelay * 0.5 : tileDelay + 0.15,
-          duration: 0.25,
-          ease: [0.22, 0.61, 0.36, 1],
-        }}
         className="absolute inset-x-0 top-0 bottom-1/2 origin-bottom overflow-hidden"
         style={{
           backgroundColor: bgColor,
           transformStyle: "preserve-3d",
           backfaceVisibility: "hidden",
           transition: "background-color 0.15s ease",
+          animation: "split-flap-fold 0.25s cubic-bezier(0.22, 0.61, 0.36, 1) both",
+          animationDelay: `${skipEntrance ? tileDelay * 0.5 : tileDelay + 0.15}s`,
         }}
       >
         <div className="flex h-full items-end justify-center">
@@ -305,7 +388,7 @@ function SplitFlapChar({ char, index, animationKey, skipEntrance, speed, playCli
             {currentChar}
           </span>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   )
 }

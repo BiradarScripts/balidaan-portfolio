@@ -4,61 +4,87 @@ import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { Award, BrainCircuit, Medal, Rocket, ShieldCheck, Trophy } from "lucide-react"
 
 gsap.registerPlugin(ScrollTrigger)
 
+const leadSignal = {
+  date: "2024 - 2025",
+  label: "Hackathon dossier",
+  title: "National-stage proof",
+  note: "Five high-signal competitions across multimodal ML, retail computer vision, startup automation, banking identity, and GenAI code tools.",
+  value: "5",
+  meta: "3 wins / 1 podium / 1 top-5 finalist",
+  proof: "Competition signal",
+  accent: "#f97316",
+  icon: Trophy,
+}
+
 const signals = [
   {
-    date: "2025.08",
-    label: "Winning streak",
-    title: "5x National Winner",
-    note: "Wins across Amazon ML, Flipkart Grid, Accenture, RBIH Codeathon, and Google GenAI Exchange.",
-    value: "5x",
-    meta: "Top 5 / AIR 156",
+    date: "2024",
+    label: "Amazon ML Challenge",
+    title: "AIR 156",
+    note: "Built a multimodal price predictor using product images and text, finishing AIR 156 and inside the best 15.",
+    value: "156",
+    meta: "AIR / best 15",
+    proof: "Image + text price ML",
+    accent: "#f97316",
+    icon: BrainCircuit,
   },
   {
-    date: "2025.07",
-    label: "Research internship",
-    title: "Krutrim AI",
-    note: "Built multilingual ETL, FastAPI inference services, and AWS EKS deployment for a fine-tuned Krutrim 2.1 stack.",
-    value: "~20k",
-    meta: "records ingested",
-  },
-  {
-    date: "2024.08",
-    label: "National ranking",
-    title: "Amazon AIR 156",
-    note: "Multimodal price prediction using images and text.",
-    value: "15",
-    meta: "best nationally",
-  },
-  {
-    date: "2024.07",
+    date: "2024",
     label: "Computer vision",
     title: "Flipkart Grid 6.0",
-    note: "Food freshness, MRP, and expiry detection models.",
-    value: "#3",
+    note: "Built ML models for food freshness, MRP, and expiry detection, finishing as 2nd Runner-up.",
+    value: "02",
     meta: "2nd runner-up",
+    proof: "Retail CV stack",
+    accent: "#34d399",
+    icon: Medal,
   },
   {
-    date: "2024.06",
-    label: "Product build",
-    title: "Accenture Winner",
-    note: "AI tool for auto-launching sites, ads, and CI/CD flows.",
+    date: "2024",
+    label: "Accenture Innovation Challenge",
+    title: "Winner",
+    note: "Created an AI tool that helped startups auto-launch sites, ads, and CI/CD pipelines.",
     value: "01",
-    meta: "challenge winner",
+    meta: "winner",
+    proof: "Startup launch automation",
+    accent: "#fbbf24",
+    icon: Rocket,
+  },
+  {
+    date: "2024",
+    label: "RBIH x Canara Bank Codeathon",
+    title: "Winner",
+    note: "Designed an AI-driven MSME ID creation system for banking identity workflows.",
+    value: "01",
+    meta: "winner",
+    proof: "MSME identity AI",
+    accent: "#a78bfa",
+    icon: ShieldCheck,
+  },
+  {
+    date: "2024",
+    label: "Google GenAI Exchange",
+    title: "Top 5 Finalist",
+    note: "Built a natural-language-based code generator and placed as a finalist in the top five.",
+    value: "05",
+    meta: "finalist",
+    proof: "NL code generation",
+    accent: "#22d3ee",
+    icon: Award,
   },
 ]
+
+type Signal = (typeof signals)[number]
 
 export function SignalsSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
-  const trackRef = useRef<HTMLDivElement>(null)
   const cursorRef = useRef<HTMLDivElement>(null)
   const [isHovering, setIsHovering] = useState(false)
-  const isDragging = useRef(false)
-  const startX = useRef(0)
-  const scrollLeft = useRef(0)
 
   useEffect(() => {
     if (!sectionRef.current || !cursorRef.current) return
@@ -74,8 +100,8 @@ export function SignalsSection() {
       gsap.to(cursor, {
         x,
         y,
-        duration: 0.2,
-        ease: "power2.out",
+        duration: 0.25,
+        ease: "power3.out",
       })
     }
 
@@ -99,9 +125,9 @@ export function SignalsSection() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         headerRef.current,
-        { x: -48, opacity: 0 },
+        { y: 48, opacity: 0 },
         {
-          x: 0,
+          y: 0,
           opacity: 1,
           duration: 0.8,
           ease: "power3.out",
@@ -112,159 +138,204 @@ export function SignalsSection() {
           },
         },
       )
+
+      gsap.fromTo(
+        ".signal-motion",
+        { opacity: 0, y: 52, clipPath: "inset(0 0 100% 0)" },
+        {
+          opacity: 1,
+          y: 0,
+          clipPath: "inset(0 0 0% 0)",
+          duration: 0.85,
+          stagger: 0.09,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        },
+      )
+
+      gsap.to(".signal-sweep", {
+        xPercent: 120,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        },
+      })
     }, sectionRef)
 
     return () => ctx.revert()
   }, [])
 
-  useEffect(() => {
-    if (!trackRef.current) return
-
-    const track = trackRef.current
-    const cards = track.querySelectorAll(".signal-card")
-    
-    cards.forEach((card, i) => {
-      gsap.fromTo(
-        card,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          delay: i * 0.12,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: track,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      )
-    })
-  }, [])
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    isDragging.current = true
-    startX.current = e.pageX - (trackRef.current?.offsetLeft || 0)
-    scrollLeft.current = trackRef.current?.scrollLeft || 0
-    trackRef.current?.classList.add("cursor-grabbing")
-    trackRef.current?.style.setProperty("scroll-behavior", "auto")
-  }
-
-  const handleMouseUp = () => {
-    isDragging.current = false
-    trackRef.current?.classList.remove("cursor-grabbing")
-  }
-
-  const handleMouseLeave = () => {
-    isDragging.current = false
-    trackRef.current?.classList.remove("cursor-grabbing")
-  }
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current || !trackRef.current) return
-    e.preventDefault()
-    const x = e.pageX - startX.current
-    const walk = (x - scrollLeft.current) * 2
-    trackRef.current.scrollLeft = scrollLeft.current - walk
-  }
+  const LeadIcon = leadSignal.icon
 
   return (
-    <section id="signals" ref={sectionRef} className="relative py-32 pl-6 pr-6 md:pl-28 md:pr-12 overflow-hidden">
+    <section id="signals" ref={sectionRef} className="relative isolate overflow-hidden py-20 pl-6 pr-6 md:py-24 md:pl-28 md:pr-12">
       <div
         ref={cursorRef}
         className={cn(
-          "pointer-events-none absolute left-0 top-0 z-50 hidden h-44 w-44 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/12 blur-3xl md:block",
+          "pointer-events-none absolute left-0 top-0 z-40 hidden h-20 w-20 -translate-x-1/2 -translate-y-1/2 border-l border-t border-accent/30 md:block",
           isHovering ? "opacity-100" : "opacity-0",
         )}
       />
+      <div className="signal-sweep pointer-events-none absolute -left-1/3 top-0 h-full w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/[0.035] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
+      <div className="pointer-events-none absolute bottom-0 left-24 hidden h-2/3 w-px bg-gradient-to-b from-transparent via-accent/35 to-transparent md:block" />
 
-      <div ref={headerRef} className="mb-16 grid gap-8 xl:grid-cols-[minmax(0,1fr)_18rem] xl:items-end">
+      <div ref={headerRef} className="mb-10 grid gap-8 xl:grid-cols-[minmax(0,1fr)_26rem] xl:items-end">
         <div>
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">01 / Wins</span>
-          <h2 className="mt-4 text-5xl tracking-tight md:text-7xl">LATEST WINS</h2>
+          <h2 className="mt-4 max-w-4xl text-5xl tracking-normal md:text-6xl xl:text-7xl">LATEST WINS</h2>
           <p className="mt-4 max-w-xl font-mono text-sm leading-relaxed text-muted-foreground">
-            A tight record of what shipped, what ranked, and what won.
+            The real hackathon record: exact outcomes, exact problem spaces, and the kind of builds that survive judges.
           </p>
         </div>
 
-        <div className="panel-sheen border border-border/45 bg-card/50 p-5 backdrop-blur-sm">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Signal window</p>
-          <p className="mt-3 text-4xl tracking-[0.08em] text-foreground">2024 - 2025</p>
-          <p className="mt-2 font-mono text-xs leading-relaxed text-muted-foreground">
-            Multimodal ML, product automation, and production systems under pressure.
-          </p>
+        <div className="signal-motion border border-border/45 bg-background/70 p-5 backdrop-blur-xl">
+          <div className="flex items-center justify-between gap-4">
+            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Competition window</p>
+            <ShieldCheck className="h-4 w-4 text-accent" />
+          </div>
+          <p className="mt-3 text-3xl tracking-normal text-foreground md:text-4xl">2024 - 2025</p>
+          <div className="mt-4 grid grid-cols-3 gap-px border border-border/40 bg-border/40">
+            {["3 wins", "AIR 156", "Top 5"].map((item) => (
+              <span key={item} className="bg-background/90 px-3 py-2 text-center font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div
-        ref={trackRef}
-        className="flex gap-5 cursor-grab select-none overflow-x-auto pb-6 pr-2 md:pr-8"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
-        onMouseMove={handleMouseMove}
-      >
+      <div className="grid gap-5 xl:grid-cols-[minmax(21rem,0.82fr)_minmax(0,1.18fr)]">
+        <article className="signal-motion panel-sheen relative overflow-hidden border border-border/45 bg-card/55 p-6 backdrop-blur-xl md:p-7">
+          <div
+            className="absolute inset-0 opacity-80"
+            style={{
+              background: `linear-gradient(135deg, ${leadSignal.accent}1d 0%, transparent 44%), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
+              backgroundSize: "100% 100%, 44px 44px, 44px 44px",
+            }}
+          />
+          <div className="relative z-10 flex min-h-[24rem] flex-col justify-between">
+            <div>
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 items-center justify-center border border-accent/45 bg-accent/10">
+                    <LeadIcon className="h-5 w-5 text-accent" />
+                  </span>
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">{leadSignal.label}</p>
+                    <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">{leadSignal.date}</p>
+                  </div>
+                </div>
+                <span className="border border-border/50 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+                  verified signal
+                </span>
+              </div>
+
+              <div className="mt-8 flex flex-col gap-6">
+                <p className="flex h-28 w-28 items-center justify-center border border-accent/45 bg-accent/10 text-7xl leading-none tracking-normal text-foreground md:h-32 md:w-32 md:text-8xl">
+                  {leadSignal.value}
+                </p>
+                <div className="max-w-xl border-l border-border/45 pl-5">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">{leadSignal.meta}</p>
+                  <h3 className="mt-3 text-4xl tracking-normal md:text-5xl">{leadSignal.title}</h3>
+                  <p className="mt-4 max-w-lg font-mono text-sm leading-relaxed text-muted-foreground">{leadSignal.note}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 grid gap-px border border-border/40 bg-border/40 sm:grid-cols-2">
+              {signals.map((win) => (
+                <div key={win.label} className="bg-background/88 px-4 py-4">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">{win.label}</p>
+                  <p className="mt-2 text-sm text-foreground/88">{win.title}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </article>
+
+        <div className="grid gap-4">
+          {signals.map((signal, index) => (
+            <SignalCard key={signal.label} signal={signal} index={index} />
+          ))}
+        </div>
+      </div>
+
+      <div className="signal-motion mt-5 grid gap-px border border-border/40 bg-border/40 md:grid-cols-5">
         {signals.map((signal, index) => (
-          <SignalCard key={signal.title} signal={signal} index={index} />
+          <div key={signal.label} className="bg-background/82 p-4">
+            <div className="flex items-center justify-between gap-3">
+              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span className="h-px flex-1 bg-border/60" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.24em]" style={{ color: signal.accent }}>
+                {signal.date}
+              </span>
+            </div>
+            <p className="mt-4 text-xl tracking-normal text-foreground">{signal.title}</p>
+          </div>
         ))}
       </div>
     </section>
   )
 }
 
-function SignalCard({
-  signal,
-  index,
-}: {
-  signal: {
-    date: string
-    label: string
-    title: string
-    note: string
-    value: string
-    meta: string
-  }
-  index: number
-}) {
+function SignalCard({ signal, index }: { signal: Signal; index: number }) {
+  const Icon = signal.icon
+
   return (
-    <article
-      className="signal-card group panel-sheen relative w-[21rem] flex-shrink-0 overflow-hidden border border-border/45 bg-card/55 p-6 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-accent/55 md:w-[23rem]"
-    >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(249,115,22,0.18),transparent_42%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+    <article className="signal-motion group panel-sheen relative overflow-hidden border border-border/45 bg-card/55 p-4 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:border-accent/55 md:p-5">
+      <div
+        className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{
+          background: `linear-gradient(120deg, ${signal.accent}1f, transparent 55%)`,
+        }}
+      />
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-      <div className="relative z-10 flex h-full min-h-[19rem] flex-col justify-between">
+      <div className="relative z-10 grid gap-4 md:grid-cols-[5.75rem_minmax(0,1fr)] md:items-stretch">
+        <div className="flex items-start justify-between gap-4 border-b border-border/35 pb-4 md:flex-col md:border-b-0 md:border-r md:pb-0 md:pr-5">
+          <span className="flex h-9 w-9 items-center justify-center border border-border/50 bg-background/60 transition-colors duration-300 group-hover:border-accent/60">
+            <Icon className="h-4 w-4" style={{ color: signal.accent }} />
+          </span>
+          <div>
+            <p className="text-3xl leading-none tracking-normal text-foreground">{signal.value}</p>
+            <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.22em] text-muted-foreground">{signal.meta}</p>
+          </div>
+        </div>
+
         <div>
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">{signal.label}</p>
-              <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">{signal.date}</p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em]" style={{ color: signal.accent }}>
+                {signal.label}
+              </p>
+              <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">{signal.date}</p>
             </div>
             <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground/60">
               {String(index + 1).padStart(2, "0")}
             </span>
           </div>
 
-          <div className="mt-8 flex items-end gap-4">
-            <p className="text-5xl leading-none text-foreground md:text-6xl">{signal.value}</p>
-            <p className="pb-1 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{signal.meta}</p>
-          </div>
+          <h3 className="mt-5 text-2xl tracking-normal transition-colors duration-300 group-hover:text-accent md:text-3xl">
+            {signal.title}
+          </h3>
+          <p className="mt-3 max-w-md font-mono text-xs leading-relaxed text-muted-foreground md:text-[11px]">
+            {signal.note}
+          </p>
 
-          <div className="mt-7 border-t border-border/35 pt-5">
-            <h3 className="text-3xl tracking-tight transition-colors duration-300 group-hover:text-accent md:text-4xl">
-              {signal.title}
-            </h3>
-            <p className="mt-3 max-w-md font-mono text-xs leading-relaxed text-muted-foreground md:text-[11px]">
-              {signal.note}
-            </p>
+          <div className="mt-6 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+            <div className="h-px w-10 transition-all duration-300 group-hover:w-16" style={{ backgroundColor: signal.accent }} />
+            {signal.proof}
           </div>
-        </div>
-
-        <div className="mt-6 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-          <div className="h-px w-10 bg-accent/60 transition-all duration-300 group-hover:w-16" />
-          live signal
         </div>
       </div>
     </article>

@@ -46,8 +46,8 @@ export function HeroSection() {
     <section ref={sectionRef} id="hero" className="relative flex min-h-screen items-center overflow-hidden pl-6 pr-6 pt-24 pb-16 md:pl-28 md:pr-12">
       <AnimatedNoise opacity={0.03} />
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-      <div className="absolute right-[10%] top-28 h-48 w-48 rounded-full bg-accent/10 blur-[120px]" aria-hidden="true" />
-      <div className="absolute bottom-16 left-[18%] h-40 w-40 rounded-full bg-white/5 blur-[120px]" aria-hidden="true" />
+      <div className="absolute right-0 top-24 h-px w-1/2 bg-gradient-to-l from-accent/45 via-white/10 to-transparent" aria-hidden="true" />
+      <div className="absolute bottom-20 left-[20%] h-56 w-px rotate-45 bg-gradient-to-b from-transparent via-accent/30 to-transparent" aria-hidden="true" />
 
       <div className="absolute left-4 top-1/2 -translate-y-1/2 md:left-6">
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground -rotate-90 origin-left block whitespace-nowrap">
@@ -75,11 +75,11 @@ export function HeroSection() {
               </div>
             </SplitFlapAudioProvider>
 
-            <p className="text-outline mt-6 font-[var(--font-bebas)] text-[clamp(2.3rem,6vw,5.8rem)] leading-none tracking-[0.22em]">
+            <p className="text-outline mt-6 font-[var(--font-bebas)] text-4xl leading-none tracking-[0.22em] md:text-6xl xl:text-[5.8rem]">
               SHREYAS BIRADAR
             </p>
 
-            <h1 className="mt-7 max-w-3xl text-3xl font-semibold leading-[0.92] tracking-[-0.06em] text-foreground md:text-5xl xl:text-6xl">
+            <h1 className="mt-7 max-w-3xl text-3xl font-semibold leading-[0.92] tracking-normal text-foreground md:text-5xl xl:text-6xl">
               AI systems that
               <span className="text-accent"> survive contact with reality.</span>
             </h1>
@@ -94,7 +94,7 @@ export function HeroSection() {
                 href="#work"
                 className="group inline-flex items-center gap-3 border border-foreground/20 bg-card/60 px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-foreground transition-all duration-200 hover:border-accent hover:text-accent"
               >
-                <ScrambleTextOnHover text="Explore Projects" as="span" duration={0.6} />
+                <ScrambleTextOnHover text="Sample Work" as="span" duration={0.6} />
                 <BitmapChevron className="transition-transform duration-[400ms] ease-in-out group-hover:rotate-45" />
               </a>
               <a

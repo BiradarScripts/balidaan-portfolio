@@ -1,12 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 
 const navItems = [
   { id: "hero", label: "Index" },
   { id: "signals", label: "Wins" },
-  { id: "work", label: "Projects" },
+  { id: "work", label: "Samples" },
   { id: "experience", label: "Experience" },
   { id: "principles", label: "Edge" },
   { id: "colophon", label: "Connect" },
@@ -14,25 +14,70 @@ const navItems = [
 
 export function SideNav() {
   const [activeSection, setActiveSection] = useState("hero")
+  const hashLockUntilRef = useRef(0)
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id)
-          }
-        })
-      },
-      { threshold: 0.3 },
-    )
+    const updateActiveSection = () => {
+      if (performance.now() < hashLockUntilRef.current) return
 
-    navItems.forEach(({ id }) => {
-      const element = document.getElementById(id)
-      if (element) observer.observe(element)
-    })
+      const viewportAnchor = window.scrollY + window.innerHeight * 0.38
+      const current = navItems.reduce(
+        (active, item) => {
+          const element = document.getElementById(item.id)
+          if (!element) return active
 
-    return () => observer.disconnect()
+          return element.offsetTop <= viewportAnchor ? item.id : active
+        },
+        "hero",
+      )
+
+      setActiveSection(current)
+    }
+
+    const updateFromHash = () => {
+      const hashId = window.location.hash.replace("#", "")
+
+      if (navItems.some((item) => item.id === hashId)) {
+        hashLockUntilRef.current = performance.now() + 1600
+        setActiveSection(hashId)
+      } else {
+        updateActiveSection()
+      }
+    }
+
+    updateActiveSection()
+    updateFromHash()
+    const hashTimer = window.setTimeout(updateFromHash, 120)
+    window.addEventListener("scroll", updateActiveSection, { passive: true })
+    window.addEventListener("resize", updateActiveSection)
+    window.addEventListener("hashchange", updateFromHash)
+
+    return () => {
+      window.clearTimeout(hashTimer)
+      window.removeEventListener("scroll", updateActiveSection)
+      window.removeEventListener("resize", updateActiveSection)
+      window.removeEventListener("hashchange", updateFromHash)
+    }
+  }, [])
+
+  useEffect(() => {
+    let ticks = 0
+    const syncHash = () => {
+      const hashId = window.location.hash.replace("#", "")
+
+      if (navItems.some((item) => item.id === hashId)) {
+        setActiveSection(hashId)
+      }
+
+      ticks += 1
+      if (ticks >= 8) {
+        window.clearInterval(timer)
+      }
+    }
+    const timer = window.setInterval(syncHash, 250)
+
+    syncHash()
+    return () => window.clearInterval(timer)
   }, [])
 
   const scrollToSection = (id: string) => {
