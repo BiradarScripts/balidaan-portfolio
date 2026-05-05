@@ -12,7 +12,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 gsap.registerPlugin(ScrollTrigger)
 
 const heroStats = [
-  { value: "5x", label: "national hackathon wins" },
+  { value: "5", label: "national hackathon honors" },
   { value: "20k", label: "multilingual records ingested" },
   { value: "1.2k+", label: "users served in production" },
 ]
@@ -143,7 +143,6 @@ export function HeroSection() {
                 <p className="mt-2 text-sm leading-relaxed text-foreground/90">
                   Integrated M.Tech in Electronics and Communication Engineering, IIIT Bangalore
                 </p>
-                <p className="mt-1 font-mono text-xs text-muted-foreground">GPA 3.24 / 4.00</p>
               </div>
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Alias meaning</p>
