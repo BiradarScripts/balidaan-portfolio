@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect } from "react"
+import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
@@ -8,62 +8,110 @@ gsap.registerPlugin(ScrollTrigger)
 
 const experiences = [
   {
+    role: "SWE Intern",
+    company: "eBay",
+    category: "Software Engineering Intern",
+    period: "May 2026 - Current",
+    description:
+      "Contributing as a software engineering intern on production systems, with a focus on reliable product experiences, backend quality, and careful shipping.",
+  },
+  {
     role: "Summer Research Intern",
     company: "Krutrim AI (OLA)",
-    location: "Bengaluru, India",
-    period: "May 2025 – Jul 2025",
-    highlights: [
-      "Engineered a Dockerized SQL ETL pipeline to asynchronously ingest ~20k multilingual records into PostgreSQL",
-      "Deployed ML models as high-throughput FastAPI microservices for real-time automated data tagging",
-      "Orchestrated AWS EKS to serve a fine-tuned Krutrim 2.1, integrating scalable inference endpoints into the backend",
-    ],
+    category: "AI Infrastructure",
+    period: "May 2025 - Jul 2025",
+    description:
+      "Engineered a Dockerized SQL ETL pipeline for ~20k multilingual records, deployed FastAPI ML services, and orchestrated AWS EKS inference endpoints for a fine-tuned Krutrim 2.1 backend.",
   },
   {
     role: "Software Developer Engineer Intern",
     company: "Think LogiTech Solutions Private Limited",
-    location: "Bengaluru, India",
-    period: "Jun 2024 – Sep 2024",
-    highlights: [
-      "Contributed to a PG management platform for 100+ properties, building and maintaining payment integrations",
-      "Collaborated with 4+ cross-functional teams to ship features used by 1.2K+ users",
-    ],
+    category: "Product Engineering",
+    period: "Jun 2024 - Sep 2024",
+    description:
+      "Built and maintained payment integrations for a PG management platform covering 100+ properties, collaborating across teams to ship features used by 1.2K+ users.",
   },
 ]
 
 export function ExperienceSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
-  const itemsRef = useRef<HTMLDivElement>(null)
+  const timelineRef = useRef<HTMLDivElement>(null)
+  const progressRef = useRef<HTMLDivElement>(null)
+  const orbRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!sectionRef.current || !headerRef.current || !itemsRef.current) return
+    if (!sectionRef.current || !headerRef.current || !timelineRef.current || !progressRef.current || !orbRef.current) {
+      return
+    }
+
+    const rows = Array.from(sectionRef.current.querySelectorAll<HTMLElement>(".experience-entry"))
 
     const ctx = gsap.context(() => {
-      gsap.from(headerRef.current, {
-        x: -60,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
+      gsap.fromTo(
+        headerRef.current,
+        { y: 34, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: "top 84%",
+            toggleActions: "play none none reverse",
+          },
+        },
+      )
+
+      gsap.set(progressRef.current, { scaleY: 0, transformOrigin: "top center" })
+
+      gsap.to(progressRef.current, {
+        scaleY: 1,
+        ease: "none",
         scrollTrigger: {
-          trigger: headerRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
+          trigger: timelineRef.current,
+          start: "top 58%",
+          end: "bottom 82%",
+          scrub: true,
         },
       })
 
-      const articles = itemsRef.current?.querySelectorAll("article")
-      articles?.forEach((article, index) => {
-        gsap.from(article, {
-          x: index % 2 === 0 ? -80 : 80,
-          opacity: 0,
-          duration: 1,
-          ease: "power3.out",
+      gsap.fromTo(
+        orbRef.current,
+        { y: 0, scale: 0.9, opacity: 0.96 },
+        {
+          y: () => Math.max(0, timelineRef.current!.offsetHeight - orbRef.current!.offsetHeight / 2),
+          scale: 1.08,
+          opacity: 1,
+          ease: "none",
           scrollTrigger: {
-            trigger: article,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
+            trigger: timelineRef.current,
+            start: "top 58%",
+            end: "bottom 82%",
+            scrub: true,
+            invalidateOnRefresh: true,
           },
-        })
+        },
+      )
+
+      rows.forEach((row) => {
+        gsap.fromTo(
+          row,
+          { y: 42, opacity: 0.24 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.62,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: row,
+              start: "top 82%",
+              end: "top 48%",
+              scrub: 0.6,
+            },
+          },
+        )
       })
     }, sectionRef)
 
@@ -71,51 +119,67 @@ export function ExperienceSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="experience" className="relative py-32 pl-6 md:pl-28 pr-6 md:pr-12">
-      <div className="grid gap-10 xl:grid-cols-[20rem_minmax(0,1fr)] xl:items-start">
-        <div ref={headerRef} className="xl:sticky xl:top-24">
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">03 / Experience</span>
-          <h2 className="mt-4 font-[var(--font-bebas)] text-5xl tracking-tight md:text-7xl">WHERE I&apos;VE WORKED</h2>
-          <p className="mt-5 max-w-sm font-mono text-sm leading-relaxed text-muted-foreground">
-            I like roles where research, backend systems, and product speed all have to meet in the same room.
-          </p>
+    <section
+      ref={sectionRef}
+      id="experience"
+      className="relative isolate overflow-hidden bg-[#050309] px-5 pt-10 pb-0 md:pl-28 md:pr-12 md:pt-14"
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-45"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 18% 12%, rgba(216,180,254,0.15), transparent 18%), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.028) 1px, transparent 1px)",
+          backgroundSize: "100% 100%, 72px 72px, 72px 72px",
+        }}
+      />
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
-            <div className="panel-sheen border border-border/45 bg-card/55 p-4 backdrop-blur-sm">
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Production</p>
-              <p className="mt-3 font-[var(--font-bebas)] text-4xl tracking-[0.08em] text-foreground">FastAPI</p>
-            </div>
-            <div className="panel-sheen border border-border/45 bg-card/55 p-4 backdrop-blur-sm">
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Infra</p>
-              <p className="mt-3 font-[var(--font-bebas)] text-4xl tracking-[0.08em] text-foreground">AWS EKS</p>
-            </div>
-          </div>
+      <div ref={headerRef} className="relative z-10 mx-auto max-w-6xl text-center">
+        <span className="font-mono text-[10px] uppercase tracking-[0.34em] text-accent">03 / Experience</span>
+        <h2 className="mt-3 font-[var(--font-bebas)] text-6xl leading-none tracking-normal text-[#eadcff] md:text-8xl xl:text-9xl">
+          My career &amp;
+          <br />
+          <span className="text-accent">experience</span>
+        </h2>
+      </div>
+
+      <div className="relative z-10 mx-auto mt-16 max-w-7xl pb-0 md:mt-20">
+        <div
+          ref={timelineRef}
+          className="pointer-events-none absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 bg-[#d8b4fe]/14 md:block"
+        >
+          <div ref={progressRef} className="absolute left-0 top-0 h-full w-px bg-accent shadow-[0_0_18px_rgba(168,85,247,0.42)]" />
+          <div
+            ref={orbRef}
+            className="absolute -left-[0.43rem] top-0 h-3.5 w-3.5 rounded-full bg-[#bd7cff] shadow-[0_0_12px_5px_rgba(168,85,247,0.45),0_0_40px_12px_rgba(168,85,247,0.16)]"
+          />
         </div>
 
-        <div ref={itemsRef} className="space-y-6">
-          {experiences.map((exp, index) => (
-            <article key={index} className="panel-sheen relative overflow-hidden border border-border/45 bg-card/55 p-6 backdrop-blur-sm md:p-8">
-              <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                <div>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">{exp.period}</span>
-                  <h3 className="mt-3 font-[var(--font-bebas)] text-3xl tracking-tight md:text-4xl">{exp.role}</h3>
-                  <p className="mt-2 font-mono text-sm text-muted-foreground">
-                    {exp.company} · {exp.location}
-                  </p>
-                </div>
-                <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground/70">
-                  {String(index + 1).padStart(2, "0")}
+        <div className="grid gap-14 md:gap-0">
+          {experiences.map((experience, index) => (
+            <article
+              key={`${experience.role}-${experience.period}`}
+              className="experience-entry grid gap-5 border-t border-white/8 pt-8 first:border-t-0 first:pt-0 md:min-h-[15.5rem] md:grid-cols-[minmax(0,1fr)_14rem_minmax(0,1fr)] md:items-start md:gap-12 md:pt-0"
+            >
+              <div className="md:pr-10">
+                <h3 className="max-w-lg text-3xl font-semibold leading-tight tracking-normal text-[#f7f2ff] md:text-4xl">
+                  {experience.role}
+                </h3>
+                <p className="mt-2 font-mono text-sm text-accent">{experience.company}</p>
+                <p className="mt-1 font-mono text-xs uppercase tracking-[0.24em] text-white/34">{experience.category}</p>
+              </div>
+
+              <div className="relative hidden min-h-10 items-start justify-center md:flex">
+                <span className="font-[var(--font-bebas)] text-5xl leading-none tracking-normal text-[#f5edff] md:text-6xl">
+                  {experience.period.includes("Current") ? "NOW" : experience.period.slice(-4)}
                 </span>
               </div>
 
-              <ul className="mt-8 space-y-4">
-                {exp.highlights.map((highlight, hIndex) => (
-                  <li key={hIndex} className="flex items-start gap-3 border-t border-border/35 pt-4 first:border-t-0 first:pt-0">
-                    <span className="mt-2 h-1.5 w-1.5 bg-accent" />
-                    <span className="font-mono text-xs leading-relaxed text-muted-foreground md:text-[13px]">{highlight}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="md:pl-10">
+                <p className="font-mono text-sm leading-relaxed text-white/58 md:text-[15px]">{experience.description}</p>
+                <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.32em] text-white/28 md:hidden">
+                  {String(index + 1).padStart(2, "0")} / {experience.period}
+                </p>
+              </div>
             </article>
           ))}
         </div>

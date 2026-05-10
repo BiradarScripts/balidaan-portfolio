@@ -8,13 +8,20 @@ const navItems = [
   { id: "signals", label: "Wins" },
   { id: "work", label: "Samples" },
   { id: "experience", label: "Experience" },
-  { id: "principles", label: "Edge" },
+  { id: "tech-stack", label: "Stack" },
   { id: "colophon", label: "Connect" },
 ]
 
 export function SideNav() {
   const [activeSection, setActiveSection] = useState("hero")
+  const activeSectionRef = useRef("hero")
   const hashLockUntilRef = useRef(0)
+
+  const setCurrentSection = (id: string) => {
+    if (activeSectionRef.current === id) return
+    activeSectionRef.current = id
+    setActiveSection(id)
+  }
 
   useEffect(() => {
     const updateActiveSection = () => {
@@ -25,13 +32,14 @@ export function SideNav() {
         (active, item) => {
           const element = document.getElementById(item.id)
           if (!element) return active
+          const sectionTop = element.getBoundingClientRect().top + window.scrollY
 
-          return element.offsetTop <= viewportAnchor ? item.id : active
+          return sectionTop <= viewportAnchor ? item.id : active
         },
         "hero",
       )
 
-      setActiveSection(current)
+      setCurrentSection(current)
     }
 
     const updateFromHash = () => {
@@ -39,7 +47,7 @@ export function SideNav() {
 
       if (navItems.some((item) => item.id === hashId)) {
         hashLockUntilRef.current = performance.now() + 1600
-        setActiveSection(hashId)
+        setCurrentSection(hashId)
       } else {
         updateActiveSection()
       }
@@ -66,7 +74,7 @@ export function SideNav() {
       const hashId = window.location.hash.replace("#", "")
 
       if (navItems.some((item) => item.id === hashId)) {
-        setActiveSection(hashId)
+        setCurrentSection(hashId)
       }
 
       ticks += 1
@@ -83,7 +91,11 @@ export function SideNav() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" })
+      if (window.lenis) {
+        window.lenis.scrollTo(element)
+      } else {
+        element.scrollIntoView({ behavior: "smooth", block: "start" })
+      }
     }
   }
 

@@ -10,12 +10,21 @@ gsap.registerPlugin(ScrollTrigger)
 
 const wins = [
   {
+    name: "Meta x Hugging Face Hackathon 2026",
+    result: "Top 100",
+    sub: "India's Largest AI Hackathon",
+    build: "31,000 teams, 52,000+ developers",
+    kind: "Rank",
+    accent: "#c084fc",
+    icon: Trophy,
+  },
+  {
     name: "Amazon ML Challenge",
     result: "AIR 156",
     sub: "Best 15",
     build: "Image + text price intelligence",
     kind: "Rank",
-    accent: "#f97316",
+    accent: "#c084fc",
     icon: BrainCircuit,
   },
   {
@@ -24,7 +33,7 @@ const wins = [
     sub: "Retail CV",
     build: "Freshness, MRP, expiry detection",
     kind: "Podium",
-    accent: "#34d399",
+    accent: "#a78bfa",
     icon: Medal,
   },
   {
@@ -33,7 +42,7 @@ const wins = [
     sub: "Launch OS",
     build: "Sites, ads, and CI/CD from AI",
     kind: "Win",
-    accent: "#fbbf24",
+    accent: "#8b5cf6",
     icon: Rocket,
   },
   {
@@ -42,7 +51,7 @@ const wins = [
     sub: "Banking ID",
     build: "AI-driven MSME identity creation",
     kind: "Win",
-    accent: "#a78bfa",
+    accent: "#d8b4fe",
     icon: Landmark,
   },
   {
@@ -51,7 +60,7 @@ const wins = [
     sub: "Code Gen",
     build: "Natural-language code generator",
     kind: "Finalist",
-    accent: "#22d3ee",
+    accent: "#b794f4",
     icon: Code2,
   },
 ]
@@ -71,15 +80,14 @@ export function SignalsSection() {
     const section = sectionRef.current
     const cursor = cursorRef.current
 
+    const quickX = gsap.quickTo(cursor, "x", { duration: 0.25, ease: "power3.out" })
+    const quickY = gsap.quickTo(cursor, "y", { duration: 0.25, ease: "power3.out" })
+
     const handleMouseMove = (event: MouseEvent) => {
       const rect = section.getBoundingClientRect()
 
-      gsap.to(cursor, {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top,
-        duration: 0.25,
-        ease: "power3.out",
-      })
+      quickX(event.clientX - rect.left)
+      quickY(event.clientY - rect.top)
     }
 
     const handleMouseEnter = () => setIsHovering(true)
@@ -166,20 +174,19 @@ export function SignalsSection() {
       <div className="win-scanline pointer-events-none absolute -left-1/3 top-0 h-full w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/[0.035] to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
 
-      <div ref={headerRef} className="mb-10 grid gap-8 xl:grid-cols-[minmax(0,1fr)_24rem] xl:items-end">
-        <div>
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">01 / Wins</span>
-          <h2 className="mt-4 max-w-4xl text-5xl tracking-normal md:text-6xl xl:text-7xl">LATEST WINS</h2>
-          <p className="mt-4 max-w-xl font-mono text-sm leading-relaxed text-muted-foreground">
-            Five judged builds. Two wins. One podium. Two national-stage rank signals.
-          </p>
-        </div>
+      <div ref={headerRef} className="mx-auto mb-12 max-w-6xl text-center">
+        <span className="font-mono text-[10px] uppercase tracking-[0.34em] text-accent">01 / Wins</span>
+        <h2 className="mt-3 font-[var(--font-bebas)] text-6xl leading-none tracking-normal text-[#eadcff] md:text-8xl xl:text-9xl">
+          Latest
+          <span className="text-accent"> wins</span>
+        </h2>
 
-        <div className="win-motion grid grid-cols-3 gap-px border border-border/40 bg-border/40">
+        <div className="win-motion mx-auto mt-8 grid max-w-2xl grid-cols-4 gap-px border border-border/40 bg-border/40 text-left">
           {[
-            ["02", "wins"],
+            ["03", "wins"],
             ["01", "podium"],
-            ["02", "ranked"],
+            ["03", "ranked"],
+            ["06", "total"],
           ].map(([value, label]) => (
             <div key={label} className="bg-background/86 px-4 py-4">
               <p className="text-4xl leading-none tracking-normal text-foreground">{value}</p>
@@ -194,7 +201,7 @@ export function SignalsSection() {
           <div
             className="absolute inset-0 opacity-90"
             style={{
-              background: `linear-gradient(120deg, ${activeWin.accent}24, transparent 44%), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
+              backgroundImage: `linear-gradient(120deg, ${activeWin.accent}24, transparent 44%), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
               backgroundSize: "100% 100%, 52px 52px, 52px 52px",
             }}
           />

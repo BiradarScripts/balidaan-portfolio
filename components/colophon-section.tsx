@@ -16,12 +16,11 @@ export function ColophonSection() {
     if (!sectionRef.current) return
 
     const ctx = gsap.context(() => {
-      // Header slide in
       if (headerRef.current) {
         gsap.from(headerRef.current, {
-          x: -60,
+          y: 34,
           opacity: 0,
-          duration: 1,
+          duration: 0.8,
           ease: "power3.out",
           scrollTrigger: {
             trigger: headerRef.current,
@@ -74,16 +73,20 @@ export function ColophonSection() {
       className="relative border-t border-border/30 py-32 pb-44 pl-6 pr-6 md:pl-28 md:pr-12 md:pb-36"
     >
       <div ref={headerRef} className="mb-16 grid gap-6 xl:grid-cols-[minmax(0,1fr)_20rem] xl:items-stretch">
-        <div className="panel-sheen relative overflow-hidden border border-border/45 bg-card/60 p-8 backdrop-blur-sm md:p-10">
+        <div className="panel-sheen relative overflow-hidden border border-border/45 bg-card/60 p-8 text-center backdrop-blur-sm md:p-10">
           <div className="absolute right-0 top-0 h-40 w-40 bg-accent/10 blur-[90px]" aria-hidden="true" />
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">05 / Connect</span>
-          <h2 className="mt-4 max-w-3xl font-[var(--font-bebas)] text-5xl tracking-tight md:text-7xl">LET&apos;S BUILD SOMETHING HARD</h2>
-          <p className="mt-5 max-w-2xl font-mono text-sm leading-relaxed text-muted-foreground">
+          <span className="font-mono text-[10px] uppercase tracking-[0.34em] text-accent">05 / Connect</span>
+          <h2 className="mx-auto mt-3 max-w-4xl font-[var(--font-bebas)] text-6xl leading-none tracking-normal text-[#eadcff] md:text-8xl xl:text-9xl">
+            Let&apos;s build
+            <br />
+            <span className="text-accent">something hard</span>
+          </h2>
+          <p className="mx-auto mt-5 max-w-2xl font-mono text-sm leading-relaxed text-muted-foreground">
             If you are building serious AI products, multimodal workflows, or backend systems that actually have to
             scale, I want to talk.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
               href="mailto:i2004shreyas@gmail.com"
               className="border border-foreground/20 bg-background/70 px-5 py-3 font-mono text-xs uppercase tracking-[0.24em] text-foreground transition-colors duration-200 hover:border-accent hover:text-accent"

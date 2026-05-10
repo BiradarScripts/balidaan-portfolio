@@ -18,11 +18,11 @@ export function AnimatedNoise({ opacity = 0.05, className }: AnimatedNoiseProps)
     if (!ctx) return
 
     let animationId: number
-    let frame = 0
+    let lastNoiseAt = 0
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth / 2
-      canvas.height = canvas.offsetHeight / 2
+      canvas.width = Math.max(1, Math.floor(canvas.offsetWidth / 4))
+      canvas.height = Math.max(1, Math.floor(canvas.offsetHeight / 4))
     }
 
     const generateNoise = () => {
@@ -40,10 +40,9 @@ export function AnimatedNoise({ opacity = 0.05, className }: AnimatedNoiseProps)
       ctx.putImageData(imageData, 0, 0)
     }
 
-    const animate = () => {
-      frame++
-      // Update noise every 2 frames for performance while still looking animated
-      if (frame % 2 === 0) {
+    const animate = (time: number) => {
+      if (time - lastNoiseAt > 120) {
+        lastNoiseAt = time
         generateNoise()
       }
       animationId = requestAnimationFrame(animate)
@@ -51,7 +50,7 @@ export function AnimatedNoise({ opacity = 0.05, className }: AnimatedNoiseProps)
 
     resize()
     window.addEventListener("resize", resize)
-    animate()
+    animationId = requestAnimationFrame(animate)
 
     return () => {
       window.removeEventListener("resize", resize)

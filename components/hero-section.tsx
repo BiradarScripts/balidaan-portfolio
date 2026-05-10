@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import { ScrambleText, ScrambleTextOnHover } from "@/components/scramble-text"
-import { SplitFlapText, SplitFlapMuteToggle, SplitFlapAudioProvider } from "@/components/split-flap-text"
+import { SplitFlapText } from "@/components/split-flap-text"
 import { AnimatedNoise } from "@/components/animated-noise"
 import { BitmapChevron } from "@/components/bitmap-chevron"
 import { ArrowUpRight, Github, Mail } from "lucide-react"
@@ -66,14 +66,9 @@ export function HeroSection() {
               <span>IIIT Bangalore</span>
             </div>
 
-            <SplitFlapAudioProvider>
-              <div className="mt-7">
-                <SplitFlapText text="BALIDAAN" speed={70} />
-                <div className="mt-4">
-                  <SplitFlapMuteToggle />
-                </div>
-              </div>
-            </SplitFlapAudioProvider>
+            <div className="mt-7">
+              <SplitFlapText text="BALIDAAN" speed={70} />
+            </div>
 
             <p className="text-outline mt-6 font-[var(--font-bebas)] text-4xl leading-none tracking-[0.22em] md:text-6xl xl:text-[5.8rem]">
               SHREYAS BIRADAR
@@ -136,7 +131,7 @@ export function HeroSection() {
             <div className="mt-6 space-y-5">
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Current station</p>
-                <p className="mt-2 text-lg font-medium text-foreground">Krutrim AI (OLA)</p>
+                <p className="mt-2 text-lg font-medium text-foreground">eBay / SWE Intern</p>
               </div>
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Education</p>
