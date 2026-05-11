@@ -183,6 +183,15 @@ export function ExperienceSection() {
             </article>
           ))}
         </div>
+
+        <div
+          data-experience-mobile-handoff="true"
+          className="pointer-events-none mx-auto mt-10 h-20 w-px md:hidden"
+          aria-hidden="true"
+        >
+          <div className="h-full w-px bg-gradient-to-b from-[#d8b4fe]/0 via-[#d8b4fe]/28 to-[#bd7cff]" />
+          <div className="-ml-[0.41rem] -mt-[0.43rem] h-3.5 w-3.5 rounded-full bg-[#bd7cff] shadow-[0_0_12px_5px_rgba(168,85,247,0.36),0_0_40px_12px_rgba(168,85,247,0.13)]" />
+        </div>
       </div>
     </section>
   )

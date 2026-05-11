@@ -68,11 +68,18 @@ const techItems: TechItem[] = [
   { name: "Jupyter", glyph: "Jp", icon: `${devicon}/jupyter/jupyter-original.svg` },
 ]
 
-const techRows = [13, 11, 9, 7, 5, 3].reduce<TechItem[][]>((rows, count) => {
-  const start = rows.flat().length
-  rows.push(techItems.slice(start, start + count))
-  return rows
-}, [])
+const buildTechRows = (counts: number[]) => {
+  let start = 0
+
+  return counts.map((count) => {
+    const row = techItems.slice(start, start + count)
+    start += count
+    return row
+  })
+}
+
+const desktopTechRows = buildTechRows([13, 11, 9, 7, 5, 3])
+const mobileTechRows = buildTechRows([3, 4, 5, 6, 7, 7, 6, 5, 3, 2])
 
 const socials = [
   { icon: Github, label: "GitHub", href: "https://github.com" },
@@ -105,13 +112,22 @@ export function TechStackSection() {
       return
     }
 
-    const tiles = Array.from(gridRef.current.querySelectorAll<HTMLElement>(".tech-tile"))
+    const mm = gsap.matchMedia()
 
     const ctx = gsap.context(() => {
+      const setupReveal = (isMobile: boolean) => {
+        const originX = isMobile ? "50%" : "calc(50% + 2rem)"
+        const targetTop = isMobile ? "46%" : "63%"
+        const targetScale = isMobile ? 1.22 : 1.1
+        const pinDistance = isMobile ? "+=620" : "+=520"
+        const revealDistance = isMobile ? "+=430" : "+=360"
+        const orbDistance = isMobile ? "+=500" : "+=420"
+        const tiles = Array.from(gridRef.current!.querySelectorAll<HTMLElement>(".tech-tile"))
+
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=520",
+        end: pinDistance,
         pin: pinRef.current,
         pinSpacing: true,
         anticipatePin: 1,
@@ -120,7 +136,7 @@ export function TechStackSection() {
       gsap.fromTo(
         orbRef.current,
         {
-          left: "calc(50% + 2rem)",
+          left: originX,
           top: "0%",
           xPercent: -50,
           yPercent: -50,
@@ -128,17 +144,17 @@ export function TechStackSection() {
           opacity: 0.92,
         },
         {
-          left: "calc(50% + 2rem)",
-          top: "63%",
+          left: originX,
+          top: targetTop,
           xPercent: -50,
           yPercent: -50,
-          scale: 1.1,
-          opacity: 0.46,
+          scale: targetScale,
+          opacity: isMobile ? 0.4 : 0.46,
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
-            end: "+=420",
+            end: orbDistance,
             scrub: true,
           },
         },
@@ -153,7 +169,7 @@ export function TechStackSection() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
-            end: "+=360",
+            end: revealDistance,
             scrub: true,
           },
         },
@@ -168,7 +184,7 @@ export function TechStackSection() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
-            end: "+=360",
+            end: revealDistance,
             scrub: true,
           },
         },
@@ -184,7 +200,7 @@ export function TechStackSection() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
-            end: "+=360",
+            end: revealDistance,
             scrub: true,
           },
         },
@@ -202,19 +218,104 @@ export function TechStackSection() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
-            end: "+=420",
+            end: orbDistance,
             scrub: true,
           },
         },
       )
+
+        return () => {}
+      }
+
+      mm.add("(max-width: 767px)", () => setupReveal(true))
+      mm.add("(min-width: 768px)", () => setupReveal(false))
     }, sectionRef)
 
-    return () => ctx.revert()
+    return () => {
+      mm.revert()
+      ctx.revert()
+    }
   }, [])
+
+  const renderTechRows = (rows: TechItem[][], variant: "mobile" | "desktop") => {
+    const isMobile = variant === "mobile"
+
+    return (
+      <div
+        data-tech-grid-view={variant}
+        className={
+          isMobile
+            ? "flex w-full max-w-[21rem] flex-col items-center justify-center gap-[0.34rem] md:hidden"
+            : "hidden w-full max-w-[68rem] flex-col items-center justify-center gap-2 md:flex"
+        }
+      >
+        {rows.map((row, rowIndex) => (
+          <div key={`${variant}-${rowIndex}`} className={isMobile ? "flex justify-center gap-[0.34rem]" : "flex flex-wrap justify-center gap-2"}>
+            {row.map((tech) => (
+              <div
+                key={`${variant}-${tech.name}`}
+                title={tech.name}
+                aria-label={tech.name}
+                className={`tech-tile group relative flex flex-col items-center justify-center overflow-hidden rounded-lg border border-[#d8b4fe]/16 bg-[#1a1125]/70 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_10px_34px_rgba(0,0,0,0.16)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#e9d5ff]/42 hover:bg-[#281838]/78 hover:shadow-[0_0_22px_rgba(168,85,247,0.2),inset_0_1px_0_rgba(255,255,255,0.1)] ${
+                  isMobile
+                    ? "h-[2.32rem] w-[2.32rem] gap-0 min-[380px]:h-[2.55rem] min-[380px]:w-[2.55rem]"
+                    : "h-[4.6rem] w-[4.6rem] gap-1.5"
+                }`}
+              >
+                <span
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{
+                    backgroundImage:
+                      "radial-gradient(circle at 50% 16%, rgba(255,255,255,0.11), rgba(255,255,255,0) 42%)",
+                  }}
+                />
+                <span
+                  className={`relative flex items-center justify-center rounded-md bg-white/[0.055] font-mono font-semibold text-[#f3e8ff]/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${
+                    isMobile ? "h-6 w-6 text-[10px] min-[380px]:h-7 min-[380px]:w-7" : "h-9 w-9 text-xs md:h-10 md:w-10"
+                  }`}
+                >
+                  {tech.icon ? (
+                    <img
+                      src={tech.icon}
+                      alt=""
+                      loading="lazy"
+                      className={`absolute object-contain transition duration-300 ${
+                        isMobile ? "h-[1.05rem] w-[1.05rem] min-[380px]:h-5 min-[380px]:w-5" : "h-6 w-6 md:h-7 md:w-7"
+                      } ${
+                        tech.mono
+                          ? "opacity-78 invert group-hover:opacity-100"
+                          : "opacity-85 grayscale group-hover:opacity-100 group-hover:grayscale-0"
+                      }`}
+                      onError={(event) => {
+                        event.currentTarget.style.display = "none"
+                      }}
+                    />
+                  ) : (
+                    <span data-fallback-glyph="true" className={isMobile ? "text-[9px] min-[380px]:text-[10px]" : "text-[11px]"}>
+                      {tech.glyph}
+                    </span>
+                  )}
+                </span>
+                <span
+                  className={
+                    isMobile
+                      ? "sr-only"
+                      : "relative max-w-[4.35rem] truncate font-mono text-[9px] leading-tight text-[#f5ecff]/64 transition-colors duration-300 group-hover:text-[#f8f0ff]/88"
+                  }
+                >
+                  {tech.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    )
+  }
 
   return (
     <section ref={sectionRef} id="tech-stack" className="relative isolate min-h-screen bg-[#050309]">
-      <div ref={pinRef} className="relative h-[100svh] overflow-hidden px-5 py-6 md:pl-28 md:pr-12 md:py-7">
+      <div ref={pinRef} className="relative h-[100svh] overflow-hidden px-3 py-5 min-[380px]:px-4 md:pl-28 md:pr-12 md:py-7">
         <div
           className="pointer-events-none absolute inset-0 z-0 opacity-85"
           style={{
@@ -259,13 +360,13 @@ export function TechStackSection() {
         />
 
         <div ref={contentRef} data-tech-content="true" className="relative z-10 flex h-full flex-col">
-          <header className="shrink-0 pt-4 text-center md:pt-5">
-            <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-[#d8b4fe]/58">
+          <header className="shrink-0 pt-7 text-center md:pt-5">
+            <span className="font-mono text-[9px] uppercase tracking-[0.32em] text-[#d8b4fe]/58 md:text-[10px] md:tracking-[0.36em]">
               04 / Stack
             </span>
             <h2
               ref={headerRef}
-              className="mt-3 font-[var(--font-bebas)] text-6xl leading-none tracking-normal text-[#eadcff] md:text-8xl xl:text-9xl"
+              className="mt-2 font-[var(--font-bebas)] text-5xl leading-none tracking-normal text-[#eadcff] min-[380px]:text-6xl md:mt-3 md:text-8xl xl:text-9xl"
             >
               TECH STACK
             </h2>
@@ -274,54 +375,13 @@ export function TechStackSection() {
           <div
             ref={gridRef}
             data-tech-grid="true"
-            className="mx-auto mt-4 flex w-full max-w-[68rem] flex-1 flex-col items-center justify-center gap-2 pb-12 md:mt-5 md:gap-2 md:pb-10"
+            className="mx-auto mt-3 flex w-full flex-1 items-center justify-center pb-12 md:mt-5 md:pb-10"
           >
-            {techRows.map((row, rowIndex) => (
-              <div key={rowIndex} className="flex flex-wrap justify-center gap-2">
-                {row.map((tech) => (
-                  <div
-                    key={tech.name}
-                    title={tech.name}
-                    className="tech-tile group relative flex h-[4.6rem] w-[4.6rem] flex-col items-center justify-center gap-1.5 overflow-hidden rounded-lg border border-[#d8b4fe]/16 bg-[#1a1125]/70 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_10px_34px_rgba(0,0,0,0.16)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#e9d5ff]/42 hover:bg-[#281838]/78 hover:shadow-[0_0_22px_rgba(168,85,247,0.2),inset_0_1px_0_rgba(255,255,255,0.1)] md:h-[4.6rem] md:w-[4.6rem]"
-                  >
-                    <span
-                      className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                      style={{
-                        backgroundImage:
-                          "radial-gradient(circle at 50% 16%, rgba(255,255,255,0.11), rgba(255,255,255,0) 42%)",
-                      }}
-                    />
-                    <span className="relative flex h-9 w-9 items-center justify-center rounded-md bg-white/[0.055] font-mono text-xs font-semibold text-[#f3e8ff]/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] md:h-10 md:w-10">
-                      {tech.icon ? (
-                        <img
-                          src={tech.icon}
-                          alt=""
-                          loading="lazy"
-                          className={`absolute h-6 w-6 object-contain transition duration-300 md:h-7 md:w-7 ${
-                            tech.mono
-                              ? "opacity-78 invert group-hover:opacity-100"
-                              : "opacity-85 grayscale group-hover:opacity-100 group-hover:grayscale-0"
-                          }`}
-                          onError={(event) => {
-                            event.currentTarget.style.display = "none"
-                          }}
-                        />
-                      ) : (
-                        <span data-fallback-glyph="true" className="text-[11px]">
-                          {tech.glyph}
-                        </span>
-                      )}
-                    </span>
-                    <span className="relative max-w-[4.35rem] truncate font-mono text-[9px] leading-tight text-[#f5ecff]/64 transition-colors duration-300 group-hover:text-[#f8f0ff]/88">
-                      {tech.name}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ))}
+            {renderTechRows(mobileTechRows, "mobile")}
+            {renderTechRows(desktopTechRows, "desktop")}
           </div>
 
-          <div className="pointer-events-none absolute bottom-6 left-0 right-0 flex items-center justify-between">
+          <div className="pointer-events-none absolute bottom-4 left-0 right-0 flex items-center justify-between md:bottom-6">
             <div className="hidden flex-col gap-6 md:flex">
               {socials.map((social) => {
                 const Icon = social.icon
@@ -341,7 +401,7 @@ export function TechStackSection() {
 
             <a
               href="#colophon"
-              className="pointer-events-auto ml-auto flex items-center gap-3 font-mono text-xs uppercase tracking-[0.45em] text-[#d8b4fe] transition hover:text-white md:text-sm"
+              className="pointer-events-auto ml-auto flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.34em] text-[#d8b4fe] transition hover:text-white md:gap-3 md:text-sm md:tracking-[0.45em]"
             >
               Resume <FileText className="h-4 w-4" />
             </a>
