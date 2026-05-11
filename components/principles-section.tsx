@@ -117,27 +117,63 @@ export function TechStackSection() {
     const ctx = gsap.context(() => {
       const setupReveal = (isMobile: boolean) => {
         const originX = isMobile ? "50%" : "calc(50% + 2rem)"
-        const targetTop = isMobile ? "48%" : "63%"
-        const targetScale = isMobile ? 1.06 : 1.1
-        const revealStart = isMobile ? "top 88%" : "top top"
-        const revealEnd = isMobile ? "top 18%" : "+=360"
-        const orbEnd = isMobile ? "top 8%" : "+=420"
-        const scrub = isMobile ? 0.35 : true
         const visibleGrid = gridRef.current!.querySelector<HTMLElement>(
           isMobile ? '[data-tech-grid-view="mobile"]' : '[data-tech-grid-view="desktop"]',
         )
         const tiles = Array.from(visibleGrid!.querySelectorAll<HTMLElement>(".tech-tile"))
 
-        if (!isMobile) {
-          ScrollTrigger.create({
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "+=520",
-            pin: pinRef.current,
-            pinSpacing: true,
-            anticipatePin: 1,
+        if (isMobile) {
+          gsap.set(orbRef.current, {
+            left: originX,
+            top: "0%",
+            xPercent: -50,
+            yPercent: -50,
+            scale: 0.34,
+            opacity: 0.76,
+            force3D: true,
           })
+          gsap.set(washRef.current, { opacity: 0.28 })
+          gsap.set(veilRef.current, { opacity: 0.18 })
+          gsap.set(contentRef.current, { y: 0, opacity: 1, force3D: true })
+          gsap.set(tiles, { y: 0, opacity: 1, scale: 1, force3D: true })
+
+          const mobileTl = gsap.timeline({
+            defaults: { ease: "power3.out" },
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 82%",
+              toggleActions: "play none none reverse",
+            },
+          })
+
+          mobileTl
+            .to(veilRef.current, { opacity: 0.02, duration: 0.7 }, 0)
+            .to(washRef.current, { opacity: 0.5, duration: 0.9 }, 0)
+            .to(orbRef.current, { top: "48%", scale: 1.02, opacity: 0.28, duration: 0.95, ease: "power2.out" }, 0)
+            .fromTo(
+              tiles,
+              { y: 8, opacity: 0.82, scale: 0.992 },
+              {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 0.55,
+                stagger: { amount: 0.16, from: "center" },
+              },
+              0.04,
+            )
+
+          return () => {}
         }
+
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "+=520",
+          pin: pinRef.current,
+          pinSpacing: true,
+          anticipatePin: 1,
+        })
 
         gsap.fromTo(
           orbRef.current,
@@ -151,81 +187,81 @@ export function TechStackSection() {
           },
           {
             left: originX,
-            top: targetTop,
+            top: "63%",
             xPercent: -50,
             yPercent: -50,
-            scale: targetScale,
-            opacity: isMobile ? 0.32 : 0.46,
+            scale: 1.1,
+            opacity: 0.46,
             ease: "none",
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: revealStart,
-              end: orbEnd,
-              scrub,
+              start: "top top",
+              end: "+=420",
+              scrub: true,
             },
           },
         )
 
         gsap.fromTo(
           washRef.current,
-          { opacity: isMobile ? 0.08 : 0.02 },
+          { opacity: 0.02 },
           {
-            opacity: isMobile ? 0.5 : 0.62,
+            opacity: 0.62,
             ease: "none",
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: revealStart,
-              end: revealEnd,
-              scrub,
+              start: "top top",
+              end: "+=360",
+              scrub: true,
             },
           },
         )
 
         gsap.fromTo(
           veilRef.current,
-          { opacity: isMobile ? 0.42 : 0.92 },
+          { opacity: 0.92 },
           {
-            opacity: isMobile ? 0.02 : 0.08,
+            opacity: 0.08,
             ease: "none",
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: revealStart,
-              end: revealEnd,
-              scrub,
+              start: "top top",
+              end: "+=360",
+              scrub: true,
             },
           },
         )
 
         gsap.fromTo(
           contentRef.current,
-          { y: isMobile ? 12 : 20, opacity: isMobile ? 0.32 : 0 },
+          { y: 20, opacity: 0 },
           {
             y: 0,
             opacity: 1,
             ease: "none",
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: revealStart,
-              end: revealEnd,
-              scrub,
+              start: "top top",
+              end: "+=360",
+              scrub: true,
             },
           },
         )
 
         gsap.fromTo(
           tiles,
-          { y: isMobile ? 6 : 14, opacity: isMobile ? 0.35 : 0, scale: isMobile ? 0.985 : 0.965 },
+          { y: 14, opacity: 0, scale: 0.965 },
           {
             y: 0,
             opacity: 1,
             scale: 1,
             ease: "none",
-            stagger: { amount: isMobile ? 0.2 : 0.5, from: "center" },
+            stagger: { amount: 0.5, from: "center" },
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: revealStart,
-              end: orbEnd,
-              scrub,
+              start: "top top",
+              end: "+=420",
+              scrub: true,
             },
           },
         )
@@ -262,14 +298,18 @@ export function TechStackSection() {
                 key={`${variant}-${tech.name}`}
                 title={tech.name}
                 aria-label={tech.name}
-                className={`tech-tile group relative flex flex-col items-center justify-center overflow-hidden rounded-lg border border-[#d8b4fe]/16 bg-[#1a1125]/70 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_10px_34px_rgba(0,0,0,0.16)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#e9d5ff]/42 hover:bg-[#281838]/78 hover:shadow-[0_0_22px_rgba(168,85,247,0.2),inset_0_1px_0_rgba(255,255,255,0.1)] ${
+                className={`tech-tile group relative flex flex-col items-center justify-center overflow-hidden rounded-lg border border-[#d8b4fe]/16 text-center ${
                   isMobile
-                    ? "h-[2.32rem] w-[2.32rem] gap-0 min-[380px]:h-[2.55rem] min-[380px]:w-[2.55rem]"
-                    : "h-[4.6rem] w-[4.6rem] gap-1.5"
+                    ? "h-[2.32rem] w-[2.32rem] gap-0 bg-[#1b1027]/82 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] min-[380px]:h-[2.55rem] min-[380px]:w-[2.55rem]"
+                    : "h-[4.6rem] w-[4.6rem] gap-1.5 bg-[#1a1125]/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_10px_34px_rgba(0,0,0,0.16)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#e9d5ff]/42 hover:bg-[#281838]/78 hover:shadow-[0_0_22px_rgba(168,85,247,0.2),inset_0_1px_0_rgba(255,255,255,0.1)]"
                 }`}
               >
                 <span
-                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  className={
+                    isMobile
+                      ? "hidden"
+                      : "pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  }
                   style={{
                     backgroundImage:
                       "radial-gradient(circle at 50% 16%, rgba(255,255,255,0.11), rgba(255,255,255,0) 42%)",
@@ -288,9 +328,13 @@ export function TechStackSection() {
                       className={`absolute object-contain transition duration-300 ${
                         isMobile ? "h-[1.05rem] w-[1.05rem] min-[380px]:h-5 min-[380px]:w-5" : "h-6 w-6 md:h-7 md:w-7"
                       } ${
-                        tech.mono
-                          ? "opacity-78 invert group-hover:opacity-100"
-                          : "opacity-85 grayscale group-hover:opacity-100 group-hover:grayscale-0"
+                        tech.mono && isMobile
+                          ? "opacity-86 invert"
+                          : isMobile
+                            ? "opacity-88 grayscale"
+                          : tech.mono
+                            ? "opacity-78 invert group-hover:opacity-100"
+                            : "opacity-85 grayscale group-hover:opacity-100 group-hover:grayscale-0"
                       }`}
                       onError={(event) => {
                         event.currentTarget.style.display = "none"
