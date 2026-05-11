@@ -123,15 +123,6 @@ export function TechStackSection() {
         const tiles = Array.from(visibleGrid!.querySelectorAll<HTMLElement>(".tech-tile"))
 
         if (isMobile) {
-          gsap.set(orbRef.current, {
-            left: originX,
-            top: "0%",
-            xPercent: -50,
-            yPercent: -50,
-            scale: 0.34,
-            opacity: 0.76,
-            force3D: true,
-          })
           gsap.set(washRef.current, { opacity: 0.28 })
           gsap.set(veilRef.current, { opacity: 0.18 })
           gsap.set(contentRef.current, { y: 0, opacity: 1, force3D: true })
@@ -149,7 +140,6 @@ export function TechStackSection() {
           mobileTl
             .to(veilRef.current, { opacity: 0.02, duration: 0.7 }, 0)
             .to(washRef.current, { opacity: 0.5, duration: 0.9 }, 0)
-            .to(orbRef.current, { top: "48%", scale: 1.02, opacity: 0.28, duration: 0.95, ease: "power2.out" }, 0)
             .fromTo(
               tiles,
               { y: 8, opacity: 0.82, scale: 0.992 },
@@ -406,7 +396,7 @@ export function TechStackSection() {
         <div
           ref={orbRef}
           data-tech-orb="true"
-          className="pointer-events-none absolute left-1/2 top-0 z-[4] h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#e6c4ff] opacity-0 shadow-[0_0_16px_5px_rgba(216,180,254,0.26),0_0_54px_18px_rgba(168,85,247,0.13),0_0_128px_46px_rgba(168,85,247,0.055)]"
+          className="pointer-events-none absolute left-1/2 top-0 z-[4] hidden h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#e6c4ff] opacity-0 shadow-[0_0_16px_5px_rgba(216,180,254,0.26),0_0_54px_18px_rgba(168,85,247,0.13),0_0_128px_46px_rgba(168,85,247,0.055)] md:block"
         />
 
         <div ref={contentRef} data-tech-content="true" className="relative z-10 flex h-full flex-col">
