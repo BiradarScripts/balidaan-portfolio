@@ -11,10 +11,11 @@ type TechItem = {
   name: string
   glyph: string
   icon?: string
+  mono?: boolean
 }
 
 const devicon = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons"
-const simpleIcon = (slug: string, color = "ffffff") => `https://cdn.simpleicons.org/${slug}/${color}`
+const simpleIcon = (slug: string) => `https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/${slug}.svg`
 
 const techItems: TechItem[] = [
   { name: "Python", glyph: "Py", icon: `${devicon}/python/python-original.svg` },
@@ -26,19 +27,19 @@ const techItems: TechItem[] = [
   { name: "HTML", glyph: "H5", icon: `${devicon}/html5/html5-original.svg` },
   { name: "CSS", glyph: "C3", icon: `${devicon}/css3/css3-original.svg` },
   { name: "React", glyph: "Rx", icon: `${devicon}/react/react-original.svg` },
-  { name: "Next.js", glyph: "N", icon: simpleIcon("nextdotjs") },
+  { name: "Next.js", glyph: "N", icon: simpleIcon("nextdotjs"), mono: true },
   { name: "Tailwind", glyph: "Tw", icon: `${devicon}/tailwindcss/tailwindcss-original.svg` },
   { name: "Node.js", glyph: "Nd", icon: `${devicon}/nodejs/nodejs-original.svg` },
-  { name: "Express.js", glyph: "Ex", icon: simpleIcon("express") },
+  { name: "Express.js", glyph: "Ex", icon: simpleIcon("express"), mono: true },
   { name: "NestJS", glyph: "Ns", icon: `${devicon}/nestjs/nestjs-original.svg` },
-  { name: "Prisma", glyph: "Pr", icon: simpleIcon("prisma") },
+  { name: "Prisma", glyph: "Pr", icon: simpleIcon("prisma"), mono: true },
   { name: "Supabase", glyph: "Su", icon: `${devicon}/supabase/supabase-original.svg` },
-  { name: "Mongoose", glyph: "Mg", icon: simpleIcon("mongoose", "d8b4fe") },
+  { name: "Mongoose", glyph: "Mg", icon: simpleIcon("mongoose"), mono: true },
   { name: "FastAPI", glyph: "Fa", icon: `${devicon}/fastapi/fastapi-original.svg` },
   { name: "Django", glyph: "Dj", icon: `${devicon}/django/django-plain.svg` },
-  { name: "Flask", glyph: "Fl", icon: simpleIcon("flask") },
-  { name: "OpenAI", glyph: "AI" },
-  { name: "Gemini / Google AI", glyph: "G", icon: simpleIcon("googlegemini", "d8b4fe") },
+  { name: "Flask", glyph: "Fl", icon: simpleIcon("flask"), mono: true },
+  { name: "OpenAI", glyph: "AI", icon: simpleIcon("openai"), mono: true },
+  { name: "Gemini / Google AI", glyph: "G", icon: simpleIcon("googlegemini"), mono: true },
   { name: "PyTorch", glyph: "Pt", icon: `${devicon}/pytorch/pytorch-original.svg` },
   { name: "TensorFlow", glyph: "Tf", icon: `${devicon}/tensorflow/tensorflow-original.svg` },
   { name: "Scikit-learn", glyph: "Sk", icon: `${devicon}/scikitlearn/scikitlearn-original.svg` },
@@ -46,7 +47,7 @@ const techItems: TechItem[] = [
   { name: "NumPy", glyph: "Np", icon: `${devicon}/numpy/numpy-original.svg` },
   { name: "Pandas", glyph: "Pd", icon: `${devicon}/pandas/pandas-original.svg` },
   { name: "Recharts", glyph: "Rc" },
-  { name: "Zod", glyph: "Zd", icon: simpleIcon("zod", "d8b4fe") },
+  { name: "Zod", glyph: "Zd", icon: simpleIcon("zod"), mono: true },
   { name: "Zustand", glyph: "Zu" },
   { name: "PostgreSQL", glyph: "Pg", icon: `${devicon}/postgresql/postgresql-original.svg` },
   { name: "MongoDB", glyph: "Mo", icon: `${devicon}/mongodb/mongodb-original.svg` },
@@ -55,13 +56,13 @@ const techItems: TechItem[] = [
   { name: "Firebase", glyph: "Fb", icon: `${devicon}/firebase/firebase-original.svg` },
   { name: "Docker", glyph: "Do", icon: `${devicon}/docker/docker-original.svg` },
   { name: "Docker Compose", glyph: "Dc", icon: `${devicon}/docker/docker-original.svg` },
-  { name: "AWS", glyph: "Aw" },
+  { name: "AWS", glyph: "Aw", icon: simpleIcon("amazonwebservices"), mono: true },
   { name: "Azure", glyph: "Az", icon: `${devicon}/azure/azure-original.svg` },
-  { name: "Render", glyph: "Re", icon: simpleIcon("render") },
-  { name: "Vercel", glyph: "V", icon: simpleIcon("vercel") },
-  { name: "Hugging Face", glyph: "HF", icon: simpleIcon("huggingface", "ffd21e") },
-  { name: "Hugging Face Spaces", glyph: "Sp", icon: simpleIcon("huggingface", "ffd21e") },
-  { name: "Framer Motion", glyph: "Fm", icon: simpleIcon("framer", "d8b4fe") },
+  { name: "Render", glyph: "Re", icon: simpleIcon("render"), mono: true },
+  { name: "Vercel", glyph: "V", icon: simpleIcon("vercel"), mono: true },
+  { name: "Hugging Face", glyph: "HF", icon: simpleIcon("huggingface"), mono: true },
+  { name: "Hugging Face Spaces", glyph: "Sp", icon: simpleIcon("huggingface"), mono: true },
+  { name: "Framer Motion", glyph: "Fm", icon: simpleIcon("framer"), mono: true },
   { name: "Figma", glyph: "Fi", icon: `${devicon}/figma/figma-original.svg` },
   { name: "Postman", glyph: "Po", icon: `${devicon}/postman/postman-original.svg` },
   { name: "Jupyter", glyph: "Jp", icon: `${devicon}/jupyter/jupyter-original.svg` },
@@ -134,7 +135,6 @@ export function TechStackSection() {
           scale: 1.1,
           opacity: 0.46,
           ease: "none",
-          immediateRender: false,
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
@@ -146,14 +146,14 @@ export function TechStackSection() {
 
       gsap.fromTo(
         washRef.current,
-        { opacity: 0.16 },
+        { opacity: 0.02 },
         {
-          opacity: 0.66,
+          opacity: 0.62,
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top bottom",
-            end: "top top",
+            start: "top top",
+            end: "+=360",
             scrub: true,
           },
         },
@@ -161,14 +161,30 @@ export function TechStackSection() {
 
       gsap.fromTo(
         veilRef.current,
-        { opacity: 0.14 },
+        { opacity: 0.92 },
         {
-          opacity: 0.02,
+          opacity: 0.08,
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top bottom",
-            end: "top top",
+            start: "top top",
+            end: "+=360",
+            scrub: true,
+          },
+        },
+      )
+
+      gsap.fromTo(
+        contentRef.current,
+        { y: 20, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "+=360",
             scrub: true,
           },
         },
@@ -176,7 +192,7 @@ export function TechStackSection() {
 
       gsap.fromTo(
         tiles,
-        { y: 8, opacity: 0.82, scale: 0.985 },
+        { y: 14, opacity: 0, scale: 0.965 },
         {
           y: 0,
           opacity: 1,
@@ -185,8 +201,8 @@ export function TechStackSection() {
           stagger: { amount: 0.5, from: "center" },
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 78%",
-            end: "top top",
+            start: "top top",
+            end: "+=420",
             scrub: true,
           },
         },
@@ -228,15 +244,17 @@ export function TechStackSection() {
         />
         <div
           ref={washRef}
+          data-tech-wash="true"
           className="pointer-events-none absolute inset-0 z-[2] opacity-0"
           style={{
             backgroundImage:
               "radial-gradient(circle at 50% 49%, rgba(216,180,254,0.12) 0%, rgba(168,85,247,0.08) 25%, rgba(88,28,135,0.045) 47%, rgba(5,3,9,0) 72%)",
           }}
         />
-        <div ref={veilRef} className="pointer-events-none absolute inset-0 z-[3] bg-[#050309]" />
+        <div ref={veilRef} data-tech-veil="true" className="pointer-events-none absolute inset-0 z-[3] bg-[#050309]" />
         <div
           ref={orbRef}
+          data-tech-orb="true"
           className="pointer-events-none absolute left-1/2 top-0 z-[4] h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#e6c4ff] opacity-0 shadow-[0_0_16px_5px_rgba(216,180,254,0.26),0_0_54px_18px_rgba(168,85,247,0.13),0_0_128px_46px_rgba(168,85,247,0.055)]"
         />
 
@@ -256,15 +274,15 @@ export function TechStackSection() {
           <div
             ref={gridRef}
             data-tech-grid="true"
-            className="mx-auto mt-7 flex w-full max-w-[67rem] flex-1 flex-col items-center justify-center gap-2.5 pb-12 md:mt-8 md:gap-2.5 md:pb-10"
+            className="mx-auto mt-4 flex w-full max-w-[68rem] flex-1 flex-col items-center justify-center gap-2 pb-12 md:mt-5 md:gap-2 md:pb-10"
           >
             {techRows.map((row, rowIndex) => (
-              <div key={rowIndex} className="flex flex-wrap justify-center gap-2.5">
+              <div key={rowIndex} className="flex flex-wrap justify-center gap-2">
                 {row.map((tech) => (
                   <div
                     key={tech.name}
                     title={tech.name}
-                    className="tech-tile group relative flex h-[4.35rem] w-[4.35rem] flex-col items-center justify-center gap-1.5 overflow-hidden rounded-lg border border-[#d8b4fe]/16 bg-[#1a1125]/70 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_10px_34px_rgba(0,0,0,0.16)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#e9d5ff]/42 hover:bg-[#281838]/78 hover:shadow-[0_0_22px_rgba(168,85,247,0.2),inset_0_1px_0_rgba(255,255,255,0.1)] md:h-[4.4rem] md:w-[4.4rem]"
+                    className="tech-tile group relative flex h-[4.6rem] w-[4.6rem] flex-col items-center justify-center gap-1.5 overflow-hidden rounded-lg border border-[#d8b4fe]/16 bg-[#1a1125]/70 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_10px_34px_rgba(0,0,0,0.16)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#e9d5ff]/42 hover:bg-[#281838]/78 hover:shadow-[0_0_22px_rgba(168,85,247,0.2),inset_0_1px_0_rgba(255,255,255,0.1)] md:h-[4.6rem] md:w-[4.6rem]"
                   >
                     <span
                       className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -273,22 +291,28 @@ export function TechStackSection() {
                           "radial-gradient(circle at 50% 16%, rgba(255,255,255,0.11), rgba(255,255,255,0) 42%)",
                       }}
                     />
-                    <span className="relative flex h-8 w-8 items-center justify-center rounded-md bg-white/[0.055] font-mono text-xs font-semibold text-[#f3e8ff]/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] md:h-9 md:w-9">
+                    <span className="relative flex h-9 w-9 items-center justify-center rounded-md bg-white/[0.055] font-mono text-xs font-semibold text-[#f3e8ff]/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] md:h-10 md:w-10">
                       {tech.icon ? (
                         <img
                           src={tech.icon}
                           alt=""
                           loading="lazy"
-                          className="absolute h-5 w-5 object-contain opacity-85 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0 md:h-6 md:w-6"
+                          className={`absolute h-6 w-6 object-contain transition duration-300 md:h-7 md:w-7 ${
+                            tech.mono
+                              ? "opacity-78 invert group-hover:opacity-100"
+                              : "opacity-85 grayscale group-hover:opacity-100 group-hover:grayscale-0"
+                          }`}
                           onError={(event) => {
                             event.currentTarget.style.display = "none"
                           }}
                         />
                       ) : (
-                        <span className="text-[11px]">{tech.glyph}</span>
+                        <span data-fallback-glyph="true" className="text-[11px]">
+                          {tech.glyph}
+                        </span>
                       )}
                     </span>
-                    <span className="relative max-w-[4.15rem] truncate font-mono text-[9px] leading-tight text-[#f5ecff]/64 transition-colors duration-300 group-hover:text-[#f8f0ff]/88">
+                    <span className="relative max-w-[4.35rem] truncate font-mono text-[9px] leading-tight text-[#f5ecff]/64 transition-colors duration-300 group-hover:text-[#f8f0ff]/88">
                       {tech.name}
                     </span>
                   </div>
