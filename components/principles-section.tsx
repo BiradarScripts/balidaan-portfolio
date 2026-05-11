@@ -117,112 +117,118 @@ export function TechStackSection() {
     const ctx = gsap.context(() => {
       const setupReveal = (isMobile: boolean) => {
         const originX = isMobile ? "50%" : "calc(50% + 2rem)"
-        const targetTop = isMobile ? "46%" : "63%"
-        const targetScale = isMobile ? 1.22 : 1.1
-        const pinDistance = isMobile ? "+=620" : "+=520"
-        const revealDistance = isMobile ? "+=430" : "+=360"
-        const orbDistance = isMobile ? "+=500" : "+=420"
-        const tiles = Array.from(gridRef.current!.querySelectorAll<HTMLElement>(".tech-tile"))
+        const targetTop = isMobile ? "48%" : "63%"
+        const targetScale = isMobile ? 1.06 : 1.1
+        const revealStart = isMobile ? "top 88%" : "top top"
+        const revealEnd = isMobile ? "top 18%" : "+=360"
+        const orbEnd = isMobile ? "top 8%" : "+=420"
+        const scrub = isMobile ? 0.35 : true
+        const visibleGrid = gridRef.current!.querySelector<HTMLElement>(
+          isMobile ? '[data-tech-grid-view="mobile"]' : '[data-tech-grid-view="desktop"]',
+        )
+        const tiles = Array.from(visibleGrid!.querySelectorAll<HTMLElement>(".tech-tile"))
 
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: pinDistance,
-        pin: pinRef.current,
-        pinSpacing: true,
-        anticipatePin: 1,
-      })
-
-      gsap.fromTo(
-        orbRef.current,
-        {
-          left: originX,
-          top: "0%",
-          xPercent: -50,
-          yPercent: -50,
-          scale: 0.34,
-          opacity: 0.92,
-        },
-        {
-          left: originX,
-          top: targetTop,
-          xPercent: -50,
-          yPercent: -50,
-          scale: targetScale,
-          opacity: isMobile ? 0.4 : 0.46,
-          ease: "none",
-          scrollTrigger: {
+        if (!isMobile) {
+          ScrollTrigger.create({
             trigger: sectionRef.current,
             start: "top top",
-            end: orbDistance,
-            scrub: true,
-          },
-        },
-      )
+            end: "+=520",
+            pin: pinRef.current,
+            pinSpacing: true,
+            anticipatePin: 1,
+          })
+        }
 
-      gsap.fromTo(
-        washRef.current,
-        { opacity: 0.02 },
-        {
-          opacity: 0.62,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: revealDistance,
-            scrub: true,
+        gsap.fromTo(
+          orbRef.current,
+          {
+            left: originX,
+            top: "0%",
+            xPercent: -50,
+            yPercent: -50,
+            scale: 0.34,
+            opacity: 0.9,
           },
-        },
-      )
+          {
+            left: originX,
+            top: targetTop,
+            xPercent: -50,
+            yPercent: -50,
+            scale: targetScale,
+            opacity: isMobile ? 0.32 : 0.46,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: revealStart,
+              end: orbEnd,
+              scrub,
+            },
+          },
+        )
 
-      gsap.fromTo(
-        veilRef.current,
-        { opacity: 0.92 },
-        {
-          opacity: 0.08,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: revealDistance,
-            scrub: true,
+        gsap.fromTo(
+          washRef.current,
+          { opacity: isMobile ? 0.08 : 0.02 },
+          {
+            opacity: isMobile ? 0.5 : 0.62,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: revealStart,
+              end: revealEnd,
+              scrub,
+            },
           },
-        },
-      )
+        )
 
-      gsap.fromTo(
-        contentRef.current,
-        { y: 20, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: revealDistance,
-            scrub: true,
+        gsap.fromTo(
+          veilRef.current,
+          { opacity: isMobile ? 0.42 : 0.92 },
+          {
+            opacity: isMobile ? 0.02 : 0.08,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: revealStart,
+              end: revealEnd,
+              scrub,
+            },
           },
-        },
-      )
+        )
 
-      gsap.fromTo(
-        tiles,
-        { y: 14, opacity: 0, scale: 0.965 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          ease: "none",
-          stagger: { amount: 0.5, from: "center" },
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: orbDistance,
-            scrub: true,
+        gsap.fromTo(
+          contentRef.current,
+          { y: isMobile ? 12 : 20, opacity: isMobile ? 0.32 : 0 },
+          {
+            y: 0,
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: revealStart,
+              end: revealEnd,
+              scrub,
+            },
           },
-        },
-      )
+        )
+
+        gsap.fromTo(
+          tiles,
+          { y: isMobile ? 6 : 14, opacity: isMobile ? 0.35 : 0, scale: isMobile ? 0.985 : 0.965 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            ease: "none",
+            stagger: { amount: isMobile ? 0.2 : 0.5, from: "center" },
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: revealStart,
+              end: orbEnd,
+              scrub,
+            },
+          },
+        )
 
         return () => {}
       }
